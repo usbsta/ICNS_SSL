@@ -149,6 +149,7 @@ max_energy_text = ax.text(0, 0, '', color='white', fontsize=12, ha='center')
 wav_files = [wave.open(filename, 'rb') for filename in wav_filenames]
 
 skip_seconds = 110
+skip_seconds = 117
 
 for wav_file in wav_files:
     skip_wav_seconds(wav_file, skip_seconds, RATE)
