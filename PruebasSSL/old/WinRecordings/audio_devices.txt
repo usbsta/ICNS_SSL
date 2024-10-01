@@ -1,0 +1,341 @@
+ 0 Microsoft Sound Mapper - Input, MME (2 in, 0 out)
+>  1 Microphone (2- H and F Series M, MME (6 in, 0 out)
+   2 Microphone (H and F Series Mult, MME (6 in, 0 out)
+   3 Microphone Array (Realtek(R) Au, MME (4 in, 0 out)
+   4 Jack Mic (Realtek(R) Audio), MME (2 in, 0 out)
+   5 Microsoft Sound Mapper - Output, MME (0 in, 2 out)
+<  6 Headphones (Realtek(R) Audio), MME (0 in, 2 out)
+   7 Headphones (H and F Series Mult, MME (0 in, 4 out)
+   8 Speakers (Realtek(R) Audio), MME (0 in, 2 out)
+   9 Headphones (2- H and F Series M, MME (0 in, 4 out)
+  10 Primary Sound Capture Driver, Windows DirectSound (2 in, 0 out)
+  11 Microphone (2- H and F Series Multi Track Usb Audio), Windows DirectSound (6 in, 0 out)
+  12 Microphone (H and F Series Multi Track Usb Audio), Windows DirectSound (6 in, 0 out)
+  13 Microphone Array (Realtek(R) Audio), Windows DirectSound (4 in, 0 out)
+  14 Jack Mic (Realtek(R) Audio), Windows DirectSound (2 in, 0 out)
+  15 Primary Sound Driver, Windows DirectSound (0 in, 2 out)
+  16 Headphones (Realtek(R) Audio), Windows DirectSound (0 in, 2 out)
+  17 Headphones (H and F Series Multi Track Usb Audio), Windows DirectSound (0 in, 4 out)
+  18 Speakers (Realtek(R) Audio), Windows DirectSound (0 in, 2 out)
+  19 Headphones (2- H and F Series Multi Track Usb Audio), Windows DirectSound (0 in, 4 out)
+  20 Headphones (H and F Series Multi Track Usb Audio), Windows WASAPI (0 in, 4 out)
+  21 Speakers (Realtek(R) Audio), Windows WASAPI (0 in, 2 out)
+  22 Headphones (Realtek(R) Audio), Windows WASAPI (0 in, 2 out)
+  23 Headphones (2- H and F Series Multi Track Usb Audio), Windows WASAPI (0 in, 4 out)
+  24 Microphone (H and F Series Multi Track Usb Audio), Windows WASAPI (6 in, 0 out)
+  25 Microphone Array (Realtek(R) Audio), Windows WASAPI (2 in, 0 out)
+  26 Jack Mic (Realtek(R) Audio), Windows WASAPI (2 in, 0 out)
+  27 Microphone (2- H and F Series Multi Track Usb Audio), Windows WASAPI (6 in, 0 out)
+  28 Microphone Array 1 (Realtek HD Audio Mic input with SST), Windows WDM-KS (2 in, 0 out)
+  29 Microphone Array 2 (Realtek HD Audio Mic input with SST), Windows WDM-KS (4 in, 0 out)
+  30 Microphone Array 3 (Realtek HD Audio Mic input with SST), Windows WDM-KS (4 in, 0 out)
+  31 FrontMic (Realtek HD Audio Front Mic input), Windows WDM-KS (2 in, 0 out)
+  32 Headphones 1 (Realtek HD Audio 2nd output with SST), Windows WDM-KS (0 in, 2 out)
+  33 Headphones 2 (Realtek HD Audio 2nd output with SST), Windows WDM-KS (0 in, 2 out)
+  34 PC Speaker (Realtek HD Audio 2nd output with SST), Windows WDM-KS (2 in, 0 out)
+  35 Speakers 1 (Realtek HD Audio output with SST), Windows WDM-KS (0 in, 2 out)
+  36 Speakers 2 (Realtek HD Audio output with SST), Windows WDM-KS (0 in, 2 out)
+  37 PC Speaker (Realtek HD Audio output with SST), Windows WDM-KS (2 in, 0 out)
+  38 Stereo Mix (Realtek HD Audio Stereo input), Windows WDM-KS (2 in, 0 out)
+  39 Headphones (H and F Series Multi Track Usb Audio), Windows WDM-KS (0 in, 4 out)
+  40 Microphone (H and F Series Multi Track Usb Audio), Windows WDM-KS (6 in, 0 out)
+  41 Headphones (H and F Series Multi Track Usb Audio), Windows WDM-KS (0 in, 4 out)
+  42 Microphone (H and F Series Multi Track Usb Audio), Windows WDM-KS (6 in, 0 out)
+
+1 interfaz
+
+ 0 Microsoft Sound Mapper - Input, MME (2 in, 0 out)
+>  1 Microphone (H and F Series Mult, MME (6 in, 0 out)
+   2 Microphone Array (Realtek(R) Au, MME (4 in, 0 out)
+   3 Jack Mic (Realtek(R) Audio), MME (2 in, 0 out)
+   4 Microsoft Sound Mapper - Output, MME (0 in, 2 out)
+<  5 Headphones (Realtek(R) Audio), MME (0 in, 2 out)
+   6 Headphones (H and F Series Mult, MME (0 in, 4 out)
+   7 Speakers (Realtek(R) Audio), MME (0 in, 2 out)
+   8 Primary Sound Capture Driver, Windows DirectSound (2 in, 0 out)
+   9 Microphone (H and F Series Multi Track Usb Audio), Windows DirectSound (6 in, 0 out)
+  10 Microphone Array (Realtek(R) Audio), Windows DirectSound (4 in, 0 out)
+  11 Jack Mic (Realtek(R) Audio), Windows DirectSound (2 in, 0 out)
+  12 Primary Sound Driver, Windows DirectSound (0 in, 2 out)
+  13 Headphones (Realtek(R) Audio), Windows DirectSound (0 in, 2 out)
+  14 Headphones (H and F Series Multi Track Usb Audio), Windows DirectSound (0 in, 4 out)
+  15 Speakers (Realtek(R) Audio), Windows DirectSound (0 in, 2 out)
+  16 Headphones (H and F Series Multi Track Usb Audio), Windows WASAPI (0 in, 4 out)
+  17 Speakers (Realtek(R) Audio), Windows WASAPI (0 in, 2 out)
+  18 Headphones (Realtek(R) Audio), Windows WASAPI (0 in, 2 out)
+  19 Microphone (H and F Series Multi Track Usb Audio), Windows WASAPI (6 in, 0 out)
+  20 Microphone Array (Realtek(R) Audio), Windows WASAPI (2 in, 0 out)
+  21 Jack Mic (Realtek(R) Audio), Windows WASAPI (2 in, 0 out)
+  22 Microphone Array 1 (Realtek HD Audio Mic input with SST), Windows WDM-KS (2 in, 0 out)
+  23 Microphone Array 2 (Realtek HD Audio Mic input with SST), Windows WDM-KS (4 in, 0 out)
+  24 Microphone Array 3 (Realtek HD Audio Mic input with SST), Windows WDM-KS (4 in, 0 out)
+  25 FrontMic (Realtek HD Audio Front Mic input), Windows WDM-KS (2 in, 0 out)
+  26 Headphones 1 (Realtek HD Audio 2nd output with SST), Windows WDM-KS (0 in, 2 out)
+  27 Headphones 2 (Realtek HD Audio 2nd output with SST), Windows WDM-KS (0 in, 2 out)
+  28 PC Speaker (Realtek HD Audio 2nd output with SST), Windows WDM-KS (2 in, 0 out)
+  29 Speakers 1 (Realtek HD Audio output with SST), Windows WDM-KS (0 in, 2 out)
+  30 Speakers 2 (Realtek HD Audio output with SST), Windows WDM-KS (0 in, 2 out)
+  31 PC Speaker (Realtek HD Audio output with SST), Windows WDM-KS (2 in, 0 out)
+  32 Stereo Mix (Realtek HD Audio Stereo input), Windows WDM-KS (2 in, 0 out)
+  33 Headphones (H and F Series Multi Track Usb Audio), Windows WDM-KS (0 in, 4 out)
+  34 Microphone (H and F Series Multi Track Usb Audio), Windows WDM-KS (6 in, 0 out)
+
+pyaudio devices 1 interfaz
+
+Device 0: Microsoft Sound Mapper - Input - 2 input channels
+Device 1: Microphone (H and F Series Mult - 6 input channels
+Device 2: Microphone Array (Realtek(R) Au - 4 input channels
+Device 3: Jack Mic (Realtek(R) Audio) - 2 input channels
+Device 4: Microsoft Sound Mapper - Output - 0 input channels
+Device 5: Headphones (Realtek(R) Audio) - 0 input channels
+Device 6: Headphones (H and F Series Mult - 0 input channels
+Device 7: Speakers (Realtek(R) Audio) - 0 input channels
+Device 8: Primary Sound Capture Driver - 2 input channels
+Device 9: Microphone (H and F Series Multi Track Usb Audio) - 6 input channels
+Device 10: Microphone Array (Realtek(R) Audio) - 4 input channels
+Device 11: Jack Mic (Realtek(R) Audio) - 2 input channels
+Device 12: Primary Sound Driver - 0 input channels
+Device 13: Headphones (Realtek(R) Audio) - 0 input channels
+Device 14: Headphones (H and F Series Multi Track Usb Audio) - 0 input channels
+Device 15: Speakers (Realtek(R) Audio) - 0 input channels
+Device 16: Headphones (H and F Series Multi Track Usb Audio) - 0 input channels
+Device 17: Speakers (Realtek(R) Audio) - 0 input channels
+Device 18: Headphones (Realtek(R) Audio) - 0 input channels
+Device 19: Microphone (H and F Series Multi Track Usb Audio) - 6 input channels
+Device 20: Microphone Array (Realtek(R) Audio) - 2 input channels
+Device 21: Jack Mic (Realtek(R) Audio) - 2 input channels
+Device 22: Microphone Array 1 (Realtek HD Audio Mic input with SST) - 2 input channels
+Device 23: Microphone Array 2 (Realtek HD Audio Mic input with SST) - 4 input channels
+Device 24: Microphone Array 3 (Realtek HD Audio Mic input with SST) - 4 input channels
+Device 25: FrontMic (Realtek HD Audio Front Mic input) - 2 input channels
+Device 26: Headphones 1 (Realtek HD Audio 2nd output with SST) - 0 input channels
+Device 27: Headphones 2 (Realtek HD Audio 2nd output with SST) - 0 input channels
+Device 28: PC Speaker (Realtek HD Audio 2nd output with SST) - 2 input channels
+Device 29: Speakers 1 (Realtek HD Audio output with SST) - 0 input channels
+Device 30: Speakers 2 (Realtek HD Audio output with SST) - 0 input channels
+Device 31: PC Speaker (Realtek HD Audio output with SST) - 2 input channels
+Device 32: Stereo Mix (Realtek HD Audio Stereo input) - 2 input channels
+Device 33: Headphones (H and F Series Multi Track Usb Audio) - 0 input channels
+Device 34: Microphone (H and F Series Multi Track Usb Audio) - 6 input channels
+
+pyaudio 2 interfaces
+
+Device 0: Microsoft Sound Mapper - Input - 2 input channels
+Device 1: Microphone (2- H and F Series M - 6 input channels
+Device 2: Microphone (H and F Series Mult - 6 input channels
+Device 3: Microphone Array (Realtek(R) Au - 4 input channels
+Device 4: Jack Mic (Realtek(R) Audio) - 2 input channels
+Device 5: Microsoft Sound Mapper - Output - 0 input channels
+Device 6: Headphones (Realtek(R) Audio) - 0 input channels
+Device 7: Headphones (H and F Series Mult - 0 input channels
+Device 8: Speakers (Realtek(R) Audio) - 0 input channels
+Device 9: Headphones (2- H and F Series M - 0 input channels
+Device 10: Primary Sound Capture Driver - 2 input channels
+Device 11: Microphone (2- H and F Series Multi Track Usb Audio) - 6 input channels
+Device 12: Microphone (H and F Series Multi Track Usb Audio) - 6 input channels
+Device 13: Microphone Array (Realtek(R) Audio) - 4 input channels
+Device 14: Jack Mic (Realtek(R) Audio) - 2 input channels
+Device 15: Primary Sound Driver - 0 input channels
+Device 16: Headphones (Realtek(R) Audio) - 0 input channels
+Device 17: Headphones (H and F Series Multi Track Usb Audio) - 0 input channels
+Device 18: Speakers (Realtek(R) Audio) - 0 input channels
+Device 19: Headphones (2- H and F Series Multi Track Usb Audio) - 0 input channels
+Device 20: Headphones (H and F Series Multi Track Usb Audio) - 0 input channels
+Device 21: Speakers (Realtek(R) Audio) - 0 input channels
+Device 22: Headphones (Realtek(R) Audio) - 0 input channels
+Device 23: Headphones (2- H and F Series Multi Track Usb Audio) - 0 input channels
+Device 24: Microphone (H and F Series Multi Track Usb Audio) - 6 input channels
+Device 25: Microphone Array (Realtek(R) Audio) - 2 input channels
+Device 26: Jack Mic (Realtek(R) Audio) - 2 input channels
+Device 27: Microphone (2- H and F Series Multi Track Usb Audio) - 6 input channels
+Device 28: Microphone Array 1 (Realtek HD Audio Mic input with SST) - 2 input channels
+Device 29: Microphone Array 2 (Realtek HD Audio Mic input with SST) - 4 input channels
+Device 30: Microphone Array 3 (Realtek HD Audio Mic input with SST) - 4 input channels
+Device 31: FrontMic (Realtek HD Audio Front Mic input) - 2 input channels
+Device 32: Headphones 1 (Realtek HD Audio 2nd output with SST) - 0 input channels
+Device 33: Headphones 2 (Realtek HD Audio 2nd output with SST) - 0 input channels
+Device 34: PC Speaker (Realtek HD Audio 2nd output with SST) - 2 input channels
+Device 35: Speakers 1 (Realtek HD Audio output with SST) - 0 input channels
+Device 36: Speakers 2 (Realtek HD Audio output with SST) - 0 input channels
+Device 37: PC Speaker (Realtek HD Audio output with SST) - 2 input channels
+Device 38: Stereo Mix (Realtek HD Audio Stereo input) - 2 input channels
+Device 39: Headphones (H and F Series Multi Track Usb Audio) - 0 input channels
+Device 40: Microphone (H and F Series Multi Track Usb Audio) - 6 input channels
+Device 41: Headphones (H and F Series Multi Track Usb Audio) - 0 input channels
+Device 42: Microphone (H and F Series Multi Track Usb Audio) - 6 input channels
+
+Process finished with exit code 0
+
+Pyaudio devices named
+
+Device 0: Microsoft Sound Mapper - Input - 2 input channels
+Device 1: Microphone zoom 2 (3- H and F S - 6 input channels
+Device 2: Microphone zoom 3 (H and F Seri - 6 input channels
+Device 3: Microphone Array (Realtek(R) Au - 4 input channels
+Device 4: Jack Mic (Realtek(R) Audio) - 2 input channels
+Device 5: Microsoft Sound Mapper - Output - 0 input channels
+Device 6: Headphones (3- H and F Series M - 0 input channels
+Device 7: Headphones (H and F Series Mult - 0 input channels
+Device 8: Speakers (Realtek(R) Audio) - 0 input channels
+Device 9: Headphones (Realtek(R) Audio) - 0 input channels
+Device 10: Primary Sound Capture Driver - 2 input channels
+Device 11: Microphone zoom 2 (3- H and F Series Multi Track Usb Audio) - 6 input channels
+Device 12: Microphone zoom 3 (H and F Series Multi Track Usb Audio) - 6 input channels
+Device 13: Microphone Array (Realtek(R) Audio) - 4 input channels
+Device 14: Jack Mic (Realtek(R) Audio) - 2 input channels
+Device 15: Primary Sound Driver - 0 input channels
+Device 16: Headphones (3- H and F Series Multi Track Usb Audio) - 0 input channels
+Device 17: Headphones (H and F Series Multi Track Usb Audio) - 0 input channels
+Device 18: Speakers (Realtek(R) Audio) - 0 input channels
+Device 19: Headphones (Realtek(R) Audio) - 0 input channels
+Device 20: Headphones (3- H and F Series Multi Track Usb Audio) - 0 input channels
+Device 21: Headphones (H and F Series Multi Track Usb Audio) - 0 input channels
+Device 22: Speakers (Realtek(R) Audio) - 0 input channels
+Device 23: Headphones (Realtek(R) Audio) - 0 input channels
+Device 24: Microphone zoom 3 (H and F Series Multi Track Usb Audio) - 6 input channels
+Device 25: Microphone Array (Realtek(R) Audio) - 2 input channels
+Device 26: Jack Mic (Realtek(R) Audio) - 2 input channels
+Device 27: Microphone zoom 2 (3- H and F Series Multi Track Usb Audio) - 6 input channels
+Device 28: Microphone Array 1 (Realtek HD Audio Mic input with SST) - 2 input channels
+Device 29: Microphone Array 2 (Realtek HD Audio Mic input with SST) - 4 input channels
+Device 30: Microphone Array 3 (Realtek HD Audio Mic input with SST) - 4 input channels
+Device 31: FrontMic (Realtek HD Audio Front Mic input) - 2 input channels
+Device 32: Headphones 1 (Realtek HD Audio 2nd output with SST) - 0 input channels
+Device 33: Headphones 2 (Realtek HD Audio 2nd output with SST) - 0 input channels
+Device 34: PC Speaker (Realtek HD Audio 2nd output with SST) - 2 input channels
+Device 35: Speakers 1 (Realtek HD Audio output with SST) - 0 input channels
+Device 36: Speakers 2 (Realtek HD Audio output with SST) - 0 input channels
+Device 37: PC Speaker (Realtek HD Audio output with SST) - 2 input channels
+Device 38: Stereo Mix (Realtek HD Audio Stereo input) - 2 input channels
+Device 39: Headphones (H and F Series Multi Track Usb Audio) - 0 input channels
+Device 40: Microphone (H and F Series Multi Track Usb Audio) - 6 input channels
+Device 41: Headphones (H and F Series Multi Track Usb Audio) - 0 input channels
+Device 42: Microphone (H and F Series Multi Track Usb Audio) - 6 input channels
+
+voice meter
+
+Device 0: Microsoft Sound Mapper - Input - 2 input channels
+Device 1: Voicemeeter Out A3 (VB-Audio Vo - 8 input channels
+Device 2: Microphone zoom 3 (H and F Seri - 6 input channels
+Device 3: Microphone zoom 2 (4- H and F S - 6 input channels
+Device 4: Voicemeeter Out B1 (VB-Audio Vo - 8 input channels
+Device 5: Microphone Array (Realtek(R) Au - 4 input channels
+Device 6: Voicemeeter Out A1 (VB-Audio Vo - 8 input channels
+Device 7: Voicemeeter Out A5 (VB-Audio Vo - 8 input channels
+Device 8: Voicemeeter Out B2 (VB-Audio Vo - 8 input channels
+Device 9: Jack Mic (Realtek(R) Audio) - 2 input channels
+Device 10: Voicemeeter Out A4 (VB-Audio Vo - 8 input channels
+Device 11: Microphone zoom (5- H and F Ser - 6 input channels
+Device 12: Voicemeeter Out A2 (VB-Audio Vo - 8 input channels
+Device 13: Voicemeeter Out B3 (VB-Audio Vo - 8 input channels
+Device 14: Microsoft Sound Mapper - Output - 0 input channels
+Device 15: Headphones (5- H and F Series M - 0 input channels
+Device 16: Voicemeeter Input (VB-Audio Voi - 0 input channels
+Device 17: Voicemeeter VAIO3 Input (VB-Aud - 0 input channels
+Device 18: Headphones (H and F Series Mult - 0 input channels
+Device 19: Voicemeeter In 5 (VB-Audio Voic - 0 input channels
+Device 20: Voicemeeter In 4 (VB-Audio Voic - 0 input channels
+Device 21: Voicemeeter In 1 (VB-Audio Voic - 0 input channels
+Device 22: Speakers (Realtek(R) Audio) - 0 input channels
+Device 23: Headphones (Realtek(R) Audio) - 0 input channels
+Device 24: Headphones (4- H and F Series M - 0 input channels
+Device 25: Voicemeeter AUX Input (VB-Audio - 0 input channels
+Device 26: Voicemeeter In 2 (VB-Audio Voic - 0 input channels
+Device 27: Voicemeeter In 3 (VB-Audio Voic - 0 input channels
+Device 28: Primary Sound Capture Driver - 2 input channels
+Device 29: Voicemeeter Out A3 (VB-Audio Voicemeeter VAIO) - 8 input channels
+Device 30: Microphone zoom 3 (H and F Series Multi Track Usb Audio) - 6 input channels
+Device 31: Microphone zoom 2 (4- H and F Series Multi Track Usb Audio) - 6 input channels
+Device 32: Voicemeeter Out B1 (VB-Audio Voicemeeter VAIO) - 8 input channels
+Device 33: Microphone Array (Realtek(R) Audio) - 4 input channels
+Device 34: Voicemeeter Out A1 (VB-Audio Voicemeeter VAIO) - 8 input channels
+Device 35: Voicemeeter Out A5 (VB-Audio Voicemeeter VAIO) - 8 input channels
+Device 36: Voicemeeter Out B2 (VB-Audio Voicemeeter VAIO) - 8 input channels
+Device 37: Jack Mic (Realtek(R) Audio) - 2 input channels
+Device 38: Voicemeeter Out A4 (VB-Audio Voicemeeter VAIO) - 8 input channels
+Device 39: Microphone zoom (5- H and F Series Multi Track Usb Audio) - 6 input channels
+Device 40: Voicemeeter Out A2 (VB-Audio Voicemeeter VAIO) - 8 input channels
+Device 41: Voicemeeter Out B3 (VB-Audio Voicemeeter VAIO) - 8 input channels
+Device 42: Primary Sound Driver - 0 input channels
+Device 43: Headphones (5- H and F Series Multi Track Usb Audio) - 0 input channels
+Device 44: Voicemeeter Input (VB-Audio Voicemeeter VAIO) - 0 input channels
+Device 45: Voicemeeter VAIO3 Input (VB-Audio Voicemeeter VAIO) - 0 input channels
+Device 46: Headphones (H and F Series Multi Track Usb Audio) - 0 input channels
+Device 47: Voicemeeter In 5 (VB-Audio Voicemeeter VAIO) - 0 input channels
+Device 48: Voicemeeter In 4 (VB-Audio Voicemeeter VAIO) - 0 input channels
+Device 49: Voicemeeter In 1 (VB-Audio Voicemeeter VAIO) - 0 input channels
+Device 50: Speakers (Realtek(R) Audio) - 0 input channels
+Device 51: Headphones (Realtek(R) Audio) - 0 input channels
+Device 52: Headphones (4- H and F Series Multi Track Usb Audio) - 0 input channels
+Device 53: Voicemeeter AUX Input (VB-Audio Voicemeeter VAIO) - 0 input channels
+Device 54: Voicemeeter In 2 (VB-Audio Voicemeeter VAIO) - 0 input channels
+Device 55: Voicemeeter In 3 (VB-Audio Voicemeeter VAIO) - 0 input channels
+Device 56: Voicemeeter Input (VB-Audio Voicemeeter VAIO) - 0 input channels
+Device 57: Voicemeeter VAIO3 Input (VB-Audio Voicemeeter VAIO) - 0 input channels
+Device 58: Headphones (H and F Series Multi Track Usb Audio) - 0 input channels
+Device 59: Voicemeeter In 5 (VB-Audio Voicemeeter VAIO) - 0 input channels
+Device 60: Voicemeeter In 4 (VB-Audio Voicemeeter VAIO) - 0 input channels
+Device 61: Voicemeeter In 1 (VB-Audio Voicemeeter VAIO) - 0 input channels
+Device 62: Speakers (Realtek(R) Audio) - 0 input channels
+Device 63: Headphones (5- H and F Series Multi Track Usb Audio) - 0 input channels
+Device 64: Headphones (Realtek(R) Audio) - 0 input channels
+Device 65: Headphones (4- H and F Series Multi Track Usb Audio) - 0 input channels
+Device 66: Voicemeeter AUX Input (VB-Audio Voicemeeter VAIO) - 0 input channels
+Device 67: Voicemeeter In 2 (VB-Audio Voicemeeter VAIO) - 0 input channels
+Device 68: Voicemeeter In 3 (VB-Audio Voicemeeter VAIO) - 0 input channels
+Device 69: Microphone zoom 3 (H and F Series Multi Track Usb Audio) - 6 input channels
+Device 70: Microphone zoom 2 (4- H and F Series Multi Track Usb Audio) - 6 input channels
+Device 71: Voicemeeter Out B1 (VB-Audio Voicemeeter VAIO) - 2 input channels
+Device 72: Microphone Array (Realtek(R) Audio) - 2 input channels
+Device 73: Voicemeeter Out A1 (VB-Audio Voicemeeter VAIO) - 2 input channels
+Device 74: Voicemeeter Out A5 (VB-Audio Voicemeeter VAIO) - 2 input channels
+Device 75: Voicemeeter Out B2 (VB-Audio Voicemeeter VAIO) - 2 input channels
+Device 76: Jack Mic (Realtek(R) Audio) - 2 input channels
+Device 77: Voicemeeter Out A4 (VB-Audio Voicemeeter VAIO) - 2 input channels
+Device 78: Voicemeeter Out A3 (VB-Audio Voicemeeter VAIO) - 2 input channels
+Device 79: Microphone zoom (5- H and F Series Multi Track Usb Audio) - 6 input channels
+Device 80: Voicemeeter Out A2 (VB-Audio Voicemeeter VAIO) - 2 input channels
+Device 81: Voicemeeter Out B3 (VB-Audio Voicemeeter VAIO) - 2 input channels
+Device 82: Output (Voicemeeter Point 3) - 0 input channels
+Device 83: Input (Voicemeeter Point 3) - 8 input channels
+Device 84: Output (Voicemeeter Point 6) - 0 input channels
+Device 85: Input (Voicemeeter Point 6) - 8 input channels
+Device 86: Voicemeeter Out 1 (Voicemeeter Point 1) - 8 input channels
+Device 87: Voicemeeter Out 4 (Voicemeeter Point 4) - 8 input channels
+Device 88: Voicemeeter Out 7 (Voicemeeter Point 7) - 8 input channels
+Device 89: Output (Voicemeeter Point 1) - 0 input channels
+Device 90: Input (Voicemeeter Point 1) - 8 input channels
+Device 91: Output (Voicemeeter Point 4) - 0 input channels
+Device 92: Input (Voicemeeter Point 4) - 8 input channels
+Device 93: Output (Voicemeeter Point 7) - 0 input channels
+Device 94: Input (Voicemeeter Point 7) - 8 input channels
+Device 95: Voicemeeter Out 2 (Voicemeeter Point 2) - 8 input channels
+Device 96: Voicemeeter Out 5 (Voicemeeter Point 5) - 8 input channels
+Device 97: Voicemeeter Out 8 (Voicemeeter Point 8) - 8 input channels
+Device 98: Output (Voicemeeter Point 2) - 0 input channels
+Device 99: Input (Voicemeeter Point 2) - 8 input channels
+Device 100: Output (Voicemeeter Point 5) - 0 input channels
+Device 101: Input (Voicemeeter Point 5) - 8 input channels
+Device 102: Output (Voicemeeter Point 8) - 0 input channels
+Device 103: Input (Voicemeeter Point 8) - 8 input channels
+Device 104: Voicemeeter Out 3 (Voicemeeter Point 3) - 8 input channels
+Device 105: Voicemeeter Out 6 (Voicemeeter Point 6) - 8 input channels
+Device 106: Microphone Array 1 (Realtek HD Audio Mic input with SST) - 2 input channels
+Device 107: Microphone Array 2 (Realtek HD Audio Mic input with SST) - 4 input channels
+Device 108: Microphone Array 3 (Realtek HD Audio Mic input with SST) - 4 input channels
+Device 109: FrontMic (Realtek HD Audio Front Mic input) - 2 input channels
+Device 110: Headphones 1 (Realtek HD Audio 2nd output with SST) - 0 input channels
+Device 111: Headphones 2 (Realtek HD Audio 2nd output with SST) - 0 input channels
+Device 112: PC Speaker (Realtek HD Audio 2nd output with SST) - 2 input channels
+Device 113: Speakers 1 (Realtek HD Audio output with SST) - 0 input channels
+Device 114: Speakers 2 (Realtek HD Audio output with SST) - 0 input channels
+Device 115: PC Speaker (Realtek HD Audio output with SST) - 2 input channels
+Device 116: Stereo Mix (Realtek HD Audio Stereo input) - 2 input channels
+Device 117: Headphones (H and F Series Multi Track Usb Audio) - 0 input channels
+Device 118: Microphone (H and F Series Multi Track Usb Audio) - 6 input channels
+Device 119: Headphones (H and F Series Multi Track Usb Audio) - 0 input channels
+Device 120: Microphone (H and F Series Multi Track Usb Audio) - 6 input channels
+Device 121: Headphones (H and F Series Multi Track Usb Audio) - 0 input channels
+Device 122: Microphone (H and F Series Multi Track Usb Audio) - 6 input channels
+
+Process finished with exit code 0

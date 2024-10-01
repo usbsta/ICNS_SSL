@@ -1,0 +1,16 @@
+measurement 18 ch procedure. 24 sept 2024
+
+1. conect in the order the usb recorders
+1.1 check the inputs channels with the microphones (poping each one and seeing the interface display)
+2. set audio multitrack in the order, zoom 3, zoom 2, zoom 1
+3. check de device number zoom 3 device 3, zoom 2 device 1, zoom 1 device 4
+
+device_index_1 = 3  # Zoom 3
+device_index_2 = 4  # Zoom 2
+device_index_3 = 1  # Zoom
+
+4. put close the mics zoom 3 ch4, zoom 2 ch1, zoom 1 ch3 and make claps to look the synch peak plot
+
+5. start the test.
+
+code working Rec_18ch_filter_noref.py
