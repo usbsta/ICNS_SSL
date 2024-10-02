@@ -20,7 +20,7 @@ highcut = 8000.0
 azimuth_range = np.arange(-180, 181, 5)
 elevation_range = np.arange(10, 91, 5)
 
-a = [0, 120, 240]
+a = [0, -120, -240]
 # config 1 equidistance
 h = [1.12, 0.92, 0.77, 0.6, 0.42, 0.02]
 r = [0.1, 0.17, 0.25, 0.32, 0.42, 0.63]
@@ -134,7 +134,7 @@ def apply_bandpass_filter(signal_data, lowcut, highcut, rate, order=5):
 
 
 plt.ion()
-fig, ax = plt.subplots(figsize=(6, 3))
+fig, ax = plt.subplots(figsize=(12, 3))
 cax = ax.imshow(np.zeros((len(elevation_range), len(azimuth_range))), extent=[azimuth_range[0], azimuth_range[-1], elevation_range[0], elevation_range[-1]], origin='lower', aspect='auto', cmap='viridis')
 fig.colorbar(cax, ax=ax, label='Energy')
 ax.set_xlabel('Azimut')
@@ -149,7 +149,7 @@ max_energy_text = ax.text(0, 0, '', color='white', fontsize=12, ha='center')
 wav_files = [wave.open(filename, 'rb') for filename in wav_filenames]
 
 skip_seconds = 110
-skip_seconds = 117
+skip_seconds = 115
 
 for wav_file in wav_files:
     skip_wav_seconds(wav_file, skip_seconds, RATE)

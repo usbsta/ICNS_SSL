@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 
 # Cargar el archivo CSV
+ref_file_path = '/Users/30068385/OneDrive - Western Sydney University/DJIFlightRecord_2024-09-24_[13-07-49].csv'
 file_path = '/Users/30068385/OneDrive - Western Sydney University/DJIFlightRecord_2024-09-19_[17-02-43].csv'
 
 # Leer el archivo e ignorar la primera línea

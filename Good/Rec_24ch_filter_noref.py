@@ -16,20 +16,21 @@ RECORD_SECONDS = 12000
 c = 343
 TARGET_DIFFERENCE = 200e-6
 peak_threshold = 0.5e8
+peak_threshold = 1e7
 
 device_index_1 = 3  # Zoom 3
 device_index_2 = 4  # Zoom 2
-device_index_3 = 1  # Zoom 1
-device_index_4 = 5  # Zoom 0
+device_index_3 = 5  # Zoom 1
+device_index_4 = 1  # Zoom 0
 
 azimuth_range = np.arange(-180, 181, 5)
 elevation_range = np.arange(10, 91, 5)
 
 lowcut = 400.0
-highcut = 8000.0
+highcut = 3000.0
 
 
-a = [0, 120, 240]
+a = [0, -120, -240]
 
 # config 1 equidistance
 h = [1.12, 0.92, 0.77, 0.6, 0.42, 0.02]
@@ -374,7 +375,7 @@ for time_idx in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
             total_correction_14 += correction_14
             buffers[3] = shift_signal(buffers[3], correction_14)
             print(f"Applying correction of {correction_14} samples to synchronize devices 1 and 4.")
-            synced_13 = True
+            synced_14 = True
             print("synchronized 1 and 4")
 
         else:
