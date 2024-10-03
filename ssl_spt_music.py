@@ -9,6 +9,8 @@ from mpl_toolkits.mplot3d import Axes3D
 
 file_path = '/Users/30068385/OneDrive - Western Sydney University/SSL/merged_F6_white_noise_1m.wav'
 
+#file_path = '/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_1_sync.wav'
+
 # Beamforming parameters
 speed_of_sound = 343  # Speed of sound in air (m/s)
 array_diameter = 0.14  # Diameter of the circular array (meters)
@@ -45,6 +47,62 @@ n_windows = (n_frames - window_size_samples) // step_size + 1
 # Create a circular array of microphones
 mic_positions = pra.circular_2D_array([0, 0], n_channels, 0, radius)
 
+mic_positions = np.c_[
+    [0.07, 0, 1],  # mic 1
+    [0.035, 0.06062, 1],  # mic 2
+    [-0.035, 0.06062, 1],  # mic 2
+    [-0.07, 0, 1],  # mic 2
+    [-0.035, -0.06062, 1],  # mic 2
+    [0.035, -0.06062, 1]  # mic 2
+]
+
+a = [0, 120, 240]
+
+h = [0.4 , 0.01]
+r = [0.45, 0.65]
+
+mic_positions2 = np.array([
+    [r[0] * np.cos(np.radians(a[0])), r[0] * np.sin(np.radians(a[0])), h[0]],  # Mic 1
+    [r[0] * np.cos(np.radians(a[1])), r[0] * np.sin(np.radians(a[1])), h[0]],  # Mic 2
+    [r[0] * np.cos(np.radians(a[2])), r[0] * np.sin(np.radians(a[2])), h[0]],  # Mic 3
+    [r[1] * np.cos(np.radians(a[0])), r[1] * np.sin(np.radians(a[0])), h[1]],  # Mic 4
+    [r[1] * np.cos(np.radians(a[1])), r[1] * np.sin(np.radians(a[1])), h[1]],  # Mic 5
+    [r[1] * np.cos(np.radians(a[2])), r[1] * np.sin(np.radians(a[2])), h[1]]  # Mic 6
+]).T
+
+'''
+a = [0, -120, -240]
+# config 1 equidistance
+h = [1.12, 0.92, 0.77, 0.6, 0.42, 0.02]
+r = [0.1, 0.17, 0.25, 0.32, 0.42, 0.63]
+
+# config 2 augmented
+#h = [1.12, 1.02, 0.87, 0.68, 0.47, 0.02]
+#r = [0.1, 0.16, 0.23, 0.29, 0.43, 0.63]
+
+
+mic_positions = np.array([
+    [r[0] * np.cos(np.radians(a[0])), r[0] * np.sin(np.radians(a[0])), h[0]],  # Mic 1
+    [r[0] * np.cos(np.radians(a[1])), r[0] * np.sin(np.radians(a[1])), h[0]],  # Mic 2
+    [r[0] * np.cos(np.radians(a[2])), r[0] * np.sin(np.radians(a[2])), h[0]],  # Mic 3
+    [r[1] * np.cos(np.radians(a[0])), r[1] * np.sin(np.radians(a[0])), h[1]],  # Mic 4
+    [r[1] * np.cos(np.radians(a[1])), r[1] * np.sin(np.radians(a[1])), h[1]],  # Mic 5
+    [r[1] * np.cos(np.radians(a[2])), r[1] * np.sin(np.radians(a[2])), h[1]],  # Mic 6
+    [r[2] * np.cos(np.radians(a[0])), r[2] * np.sin(np.radians(a[0])), h[2]],  # Mic 7
+    [r[2] * np.cos(np.radians(a[1])), r[2] * np.sin(np.radians(a[1])), h[2]],  # Mic 8
+    [r[2] * np.cos(np.radians(a[2])), r[2] * np.sin(np.radians(a[2])), h[2]],  # Mic 9
+    [r[3] * np.cos(np.radians(a[0])), r[3] * np.sin(np.radians(a[0])), h[3]],  # Mic 10
+    [r[3] * np.cos(np.radians(a[1])), r[3] * np.sin(np.radians(a[1])), h[3]],  # Mic 11
+    [r[3] * np.cos(np.radians(a[2])), r[3] * np.sin(np.radians(a[2])), h[3]],  # Mic 12
+    [r[4] * np.cos(np.radians(a[0])), r[4] * np.sin(np.radians(a[0])), h[4]],  # Mic 13
+    [r[4] * np.cos(np.radians(a[1])), r[4] * np.sin(np.radians(a[1])), h[4]],  # Mic 14
+    [r[4] * np.cos(np.radians(a[2])), r[4] * np.sin(np.radians(a[2])), h[4]],  # Mic 15
+    [r[5] * np.cos(np.radians(a[0])), r[5] * np.sin(np.radians(a[0])), h[5]],  # Mic 16
+    [r[5] * np.cos(np.radians(a[1])), r[5] * np.sin(np.radians(a[1])), h[5]],  # Mic 17
+    [r[5] * np.cos(np.radians(a[2])), r[5] * np.sin(np.radians(a[2])), h[5]] # Mic 18
+])
+'''
+
 
 fs = framerate
 nfft = 1024  # FFT size
@@ -52,8 +110,8 @@ freq_bins = np.arange(5, 60)  # FFT bins to use for estimation
 
 # Define the SSL algorithms to use
 selected_algorithms = {
-    'SRP': pra.doa.SRP(mic_positions, fs, nfft, c=speed_of_sound),
-    'NormMUSIC': pra.doa.NormMUSIC(mic_positions, fs, nfft, c=speed_of_sound)
+    'SRP': pra.doa.SRP(mic_positions, fs, nfft, c=speed_of_sound, colatitude=None, dim=3),
+    'NormMUSIC': pra.doa.NormMUSIC(mic_positions, fs, nfft, c=speed_of_sound, colatitude=None, dim=3)
 }
 
 # Initialize storage for power estimates and execution times

@@ -21,7 +21,7 @@ a = [0, 120, 240]
 #r = [0.3, 0.35]
 
 wav_filenames = ['/Users/30068385/OneDrive - Western Sydney University/18ch_3D_outside/device_3_sync.wav']
-h = [0.4 , 0.01] # 13 to 18ch
+h = [0.4 , 0.01]
 r = [0.45, 0.65]
 
 mic_positions = np.array([
