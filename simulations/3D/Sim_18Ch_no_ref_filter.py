@@ -126,6 +126,7 @@ def butter_bandpass(lowcut, highcut, rate, order=5):
     b, a = butter(order, [low, high], btype='band')
     return b, a
 
+
 def apply_bandpass_filter(signal_data, lowcut, highcut, rate, order=5):
     b, a = butter_bandpass(lowcut, highcut, rate, order=order)
     filtered_signal = filtfilt(b, a, signal_data, axis=0)  # Aplicar filtro a lo largo de la señal en cada canal
@@ -133,6 +134,16 @@ def apply_bandpass_filter(signal_data, lowcut, highcut, rate, order=5):
 
 
 
+# Read WAV files
+def read_wav_block(wav_file, chunk_size):
+    data = wav_file.readframes(chunk_size)
+    if len(data) == 0:
+        return None
+    signal_data = np.frombuffer(data, dtype=np.int32)
+    return np.reshape(signal_data, (-1, CHANNELS))
+
+
+# Visualization setup
 plt.ion()
 fig, ax = plt.subplots(figsize=(12, 3))
 cax = ax.imshow(np.zeros((len(elevation_range), len(azimuth_range))), extent=[azimuth_range[0], azimuth_range[-1], elevation_range[0], elevation_range[-1]], origin='lower', aspect='auto', cmap='viridis')
@@ -148,7 +159,6 @@ max_energy_text = ax.text(0, 0, '', color='white', fontsize=12, ha='center')
 
 wav_files = [wave.open(filename, 'rb') for filename in wav_filenames]
 
-skip_seconds = 110
 skip_seconds = 115
 
 for wav_file in wav_files:
