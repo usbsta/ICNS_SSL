@@ -7,10 +7,12 @@ import threading
 import signal
 import sys
 from scipy.signal import butter, filtfilt
+from scipy.io import savemat
+
 
 CHANNELS = 6  # Canales por dispositivo
 RATE = 48000  # Frecuencia de muestreo
-CHUNK = int(0.1 * RATE)  # Tamaño del buffer en 200 ms
+CHUNK = int(0.2 * RATE)  # Tamaño del buffer en 200 ms
 c = 343  # Velocidad del sonido en m/s
 RECORD_SECONDS = 120000  # Tiempo de grabación
 
@@ -63,9 +65,9 @@ wav_filenames = ['/Users/30068385/OneDrive - Western Sydney University/test reco
                  '/Users/30068385/OneDrive - Western Sydney University/test recordings/speaker 2 no filter pytho no ref 23 09/device_2_sync.wav',
                  '/Users/30068385/OneDrive - Western Sydney University/test recordings/speaker 2 no filter pytho no ref 23 09/device_3_sync.wav']
 
-wav_filenames = ['/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_1_sync.wav',
-                 '/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_2_sync.wav',
-                 '/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_3_sync.wav']
+wav_filenames = ['/Users/bjrn/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_1_sync.wav',
+                 '/Users/bjrn/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_2_sync.wav',
+                 '/Users/bjrn/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_3_sync.wav']
 
 
 buffers = [np.zeros((CHUNK, CHANNELS), dtype=np.int32) for _ in range(3)]
@@ -160,29 +162,40 @@ max_energy_text = ax.text(0, 0, '', color='white', fontsize=12, ha='center')
 wav_files = [wave.open(filename, 'rb') for filename in wav_filenames]
 
 skip_seconds = 115
+skip_seconds = 600
 
 for wav_file in wav_files:
     skip_wav_seconds(wav_file, skip_seconds, RATE)
 
-
+# Lista para almacenar las matrices de energía en cada tiempo
+energy_data = []
 
 try:
     for time_idx in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
-
         # Leer el siguiente bloque de datos para cada dispositivo
+        end_of_file_reached = False
         for i, wav_file in enumerate(wav_files):
             block = read_wav_block(wav_file, CHUNK)
             if block is None:
-                break  # Si se alcanzó el final del archivo
+                end_of_file_reached = True  # Señal de que se alcanzó el final del archivo
+                break
             buffers[i] = block
+
+        if end_of_file_reached:
+            print("Fin del archivo WAV alcanzado.")
+            break  # Salir del bucle principal si se alcanzó el final de algún archivo
 
         combined_signal = np.hstack(buffers)
 
-        # filtering
+        # Filtrado
         filtered_signal = apply_bandpass_filter(combined_signal, lowcut, highcut, RATE)
         num_samples = filtered_signal.shape[0]
 
+        # Beamforming
         energy = beamform_time(filtered_signal, mic_positions, azimuth_range, elevation_range, RATE, c)
+
+        # Guardar la energía actual en la lista
+        energy_data.append(energy)
 
         # Encontrar el índice de la máxima energía
         max_energy_idx = np.unravel_index(np.argmax(energy), energy.shape)
@@ -193,7 +206,8 @@ try:
         current_time = calculate_time(time_idx, CHUNK, RATE)
 
         # Imprimir el ángulo estimado y el tiempo
-        print(f"Tiempo: {current_time + skip_seconds:.2f} s - Ángulo estimado: Azimut = {estimated_azimuth:.2f}°, Elevación = {estimated_elevation:.2f}°")
+        print(
+            f"Tiempo: {current_time + skip_seconds:.2f} s - Ángulo estimado: Azimut = {estimated_azimuth:.2f}°, Elevación = {estimated_elevation:.2f}°")
 
         # Actualizar los datos del mapa de calor
         cax.set_data(energy.T)
@@ -209,7 +223,10 @@ try:
         fig.canvas.draw()
         fig.canvas.flush_events()
 
-    print("Simulación completada.")
+    # Guardar la lista de matrices de energía en un archivo .mat al final del bucle
+    savemat('energy_data.mat', {'energy_data': energy_data})
+
+    print("Simulación completada y datos guardados en 'energy_data.mat'.")
 finally:
     for wav_file in wav_files:
         wav_file.close()
