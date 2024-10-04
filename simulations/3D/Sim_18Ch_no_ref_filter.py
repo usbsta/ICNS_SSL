@@ -10,15 +10,15 @@ from scipy.signal import butter, filtfilt
 
 CHANNELS = 6  # Canales por dispositivo
 RATE = 48000  # Frecuencia de muestreo
-CHUNK = int(0.2 * RATE)  # Tamaño del buffer en 200 ms
+CHUNK = int(0.1 * RATE)  # Tamaño del buffer en 200 ms
 c = 343  # Velocidad del sonido en m/s
 RECORD_SECONDS = 120000  # Tiempo de grabación
 
 lowcut = 400.0
 highcut = 8000.0
 
-azimuth_range = np.arange(-180, 181, 5)
-elevation_range = np.arange(10, 91, 5)
+azimuth_range = np.arange(-180, 181, 1)
+elevation_range = np.arange(10, 91, 1)
 
 a = [0, -120, -240]
 # config 1 equidistance
