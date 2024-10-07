@@ -163,8 +163,8 @@ max_energy_text = ax.text(0, 0, '', color='white', fontsize=12, ha='center')
 
 wav_files = [wave.open(filename, 'rb') for filename in wav_filenames]
 
-skip_seconds = 115
-skip_seconds = 535
+skip_seconds = 115 # start flew on video
+skip_seconds = 535 # minute 7 after de first 115.
 #skip_seconds = 600
 
 for wav_file in wav_files:
