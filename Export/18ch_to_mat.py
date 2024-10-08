@@ -12,7 +12,8 @@ from scipy.io import savemat
 
 CHANNELS = 6  # Canales por dispositivo
 RATE = 48000  # Frecuencia de muestreo
-CHUNK = int(0.016683 * RATE)  # Tamaño del buffer en 200 ms
+CHUNK = int(0.2 * RATE) # 200 ms
+CHUNK = int(0.016683 * RATE)  # 60 fps
 CHUNK = int(0.2 * RATE)  # Tamaño del buffer en 200 ms
 
 c = 343  # Velocidad del sonido en m/s
