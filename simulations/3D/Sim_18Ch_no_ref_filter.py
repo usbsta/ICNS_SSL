@@ -17,8 +17,8 @@ RECORD_SECONDS = 120000  # Tiempo de grabación
 lowcut = 400.0
 highcut = 8000.0
 
-azimuth_range = np.arange(-180, 181, 5)
-elevation_range = np.arange(10, 91, 5)
+azimuth_range = np.arange(-180, 181, 1)
+elevation_range = np.arange(10, 91, 1)
 
 a = [0, -120, -240]
 # config 1 equidistance
@@ -71,6 +71,7 @@ wav_filenames = ['/Users/30068385/OneDrive - Western Sydney University/recording
 buffers = [np.zeros((CHUNK, CHANNELS), dtype=np.int32) for _ in range(3)]
 
 # beamforming
+
 def beamform_time(signal_data, mic_positions, azimuth_range, elevation_range, RATE, c):
     num_samples = signal_data.shape[0]
     energy = np.zeros((len(azimuth_range), len(elevation_range)))
@@ -132,17 +133,6 @@ def apply_bandpass_filter(signal_data, lowcut, highcut, rate, order=5):
     filtered_signal = filtfilt(b, a, signal_data, axis=0)  # Aplicar filtro a lo largo de la señal en cada canal
     return filtered_signal
 
-
-
-# Read WAV files
-def read_wav_block(wav_file, chunk_size):
-    data = wav_file.readframes(chunk_size)
-    if len(data) == 0:
-        return None
-    signal_data = np.frombuffer(data, dtype=np.int32)
-    return np.reshape(signal_data, (-1, CHANNELS))
-
-
 # Visualization setup
 plt.ion()
 fig, ax = plt.subplots(figsize=(12, 3))
@@ -160,21 +150,27 @@ max_energy_text = ax.text(0, 0, '', color='white', fontsize=12, ha='center')
 wav_files = [wave.open(filename, 'rb') for filename in wav_filenames]
 
 skip_seconds = 115
+skip_seconds = 630
 
 for wav_file in wav_files:
     skip_wav_seconds(wav_file, skip_seconds, RATE)
 
 
-
 try:
     for time_idx in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+        finished = False  # Bandera para verificar si algún archivo ha terminado
 
         # Leer el siguiente bloque de datos para cada dispositivo
         for i, wav_file in enumerate(wav_files):
             block = read_wav_block(wav_file, CHUNK)
             if block is None:
-                break  # Si se alcanzó el final del archivo
+                finished = True  # Si uno de los archivos llega al final, activar la bandera
+                break  # Romper el bucle si se alcanza el final del archivo
             buffers[i] = block
+
+        if finished:
+            print("Fin del archivo de audio.")
+            break  # Salir del bucle principal si se llegó al final del archivo
 
         combined_signal = np.hstack(buffers)
 
@@ -210,6 +206,8 @@ try:
         fig.canvas.flush_events()
 
     print("Simulación completada.")
+
 finally:
     for wav_file in wav_files:
         wav_file.close()
+

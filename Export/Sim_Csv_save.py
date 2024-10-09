@@ -15,8 +15,8 @@ RECORD_SECONDS = 120000  # Tiempo de grabación
 lowcut = 400.0
 highcut = 8000.0
 
-azimuth_range = np.arange(-180, 181, 5)
-elevation_range = np.arange(0, 91, 5)
+azimuth_range = np.arange(-180, 181, 10)
+elevation_range = np.arange(0, 91, 10)
 
 a = [0, -120, -240]
 # config 1 equidistance
@@ -51,9 +51,9 @@ mic_positions = np.array([
 
 # Nombres de los archivos WAV (para la opción de simulación)
 
-wav_filenames = ['/Users/bjrn/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_1_sync.wav',
-                 '/Users/bjrn/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_2_sync.wav',
-                 '/Users/bjrn/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_3_sync.wav']
+wav_filenames = ['/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_1_sync.wav',
+                 '/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_2_sync.wav',
+                 '/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_3_sync.wav']
 
 
 buffers = [np.zeros((CHUNK, CHANNELS), dtype=np.int32) for _ in range(3)]
@@ -78,21 +78,30 @@ def beamform_time(signal_data, mic_positions, azimuth_range, elevation_range, RA
 
             delays = (np.dot(mic_positions, direction_vector) / c)
 
-            # aplying delays
+            # applying delays
             output_signal = np.zeros(num_samples)
             for i, delay in enumerate(delays):
                 delay_samples = int(np.round(delay * RATE))
                 signal_shifted = np.roll(signal_data[:, i], delay_samples)
                 output_signal += signal_shifted
 
-            output_signal /= signal_data.shape[1] # normalize amplitud with num of mics
+            output_signal /= signal_data.shape[1]  # normalize amplitude with num of mics
             energy[az_idx, el_idx] = np.sum(output_signal ** 2)
     return energy
 
 def calculate_time(time_idx, chunk_size, rate):
-    # Calcular el tiempo actual en segundos
+    # Calculate the current time in seconds
     time_seconds = (time_idx * chunk_size) / rate
     return time_seconds
+
+def calculate_horizontal_distance_meters(x1, y1, x2, y2):
+    return np.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+
+# Function to calculate azimuth and elevation difference
+def calculate_angle_difference(beamform_az, csv_az, beamform_el, csv_el):
+    az_diff = np.abs(beamform_az - csv_az)
+    el_diff = np.abs(beamform_el - csv_el)
+    return az_diff, el_diff
 
 def read_wav_block(wav_file, chunk_size):
     data = wav_file.readframes(chunk_size)
@@ -128,8 +137,8 @@ def read_wav_block(wav_file, chunk_size):
 
 
 # Cargar los archivos CSV
-ref_file_path = '/Users/bjrn/OneDrive - Western Sydney University/flight records/DJIFlightRecord_2024-09-24_[13-07-49].csv'
-file_path_flight = '/Users/bjrn/OneDrive - Western Sydney University/flight records/DJIFlightRecord_2024-09-24_[13-23-48].csv'
+ref_file_path = '/Users/30068385/OneDrive - Western Sydney University/flight records/DJIFlightRecord_2024-09-24_[13-07-49].csv'
+file_path_flight = '/Users/30068385/OneDrive - Western Sydney University/flight records/DJIFlightRecord_2024-09-24_[13-23-48].csv'
 
 # Leer el archivo de referencia y de vuelo
 ref_data = pd.read_csv(ref_file_path, skiprows=1, delimiter=',', low_memory=False)
@@ -148,7 +157,8 @@ time_col = 'OSD.flyTime'
 # Obtener el índice inicial correspondiente al segundo deseado (por ejemplo, segundo 4)
 start_time_seconds = 3  # Segundo deseado
 samples_per_second = 10  # 100 ms por muestra significa 10 muestras por segundo
-start_index = start_time_seconds * samples_per_second
+#start_index = start_time_seconds * samples_per_second
+start_index = 25
 
 # Reajustar el dataframe para empezar desde el índice deseado
 flight_data = flight_data.iloc[start_index:].reset_index(drop=True)
@@ -174,6 +184,11 @@ flight_data['X_meters'], flight_data['Y_meters'] = transformer.transform(
     flight_data[latitude_col].values
 )
 
+# Crear un DataFrame vacío para almacenar los datos
+data_columns = ['Tiempo_Audio', 'Tiempo_CSV', 'Azimut_Estimado', 'Elevacion_Estimada',
+                'Azimut_CSV', 'Elevacion_CSV', 'Dif_Azimut', 'Dif_Elevacion', 'Distancia_Metros']
+results_df = pd.DataFrame(columns=data_columns)
+
 # Función para calcular la distancia horizontal entre dos puntos en coordenadas cartesianas
 def calculate_horizontal_distance_meters(x1, y1, x2, y2):
     return np.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
@@ -187,6 +202,7 @@ def calculate_azimuth_meters(x1, y1, x2, y2):
 def calculate_elevation_meters(altitude, x1, y1, x2, y2, reference_altitude):
     horizontal_distance = calculate_horizontal_distance_meters(x1, y1, x2, y2)
     relative_altitude = altitude - reference_altitude  # Calcular la altura relativa respecto a la referencia
+    #relative_altitude = altitude - 1.1  # Calcular la altura relativa respecto a la referencia
     return np.degrees(np.arctan2(relative_altitude, horizontal_distance))
 
 # Calcular los valores iniciales de azimuth y elevación
@@ -197,20 +213,32 @@ initial_azimuth = calculate_azimuth_meters(ref_x, ref_y,
 initial_elevation = calculate_elevation_meters(flight_data.iloc[0][altitude_col], ref_x, ref_y,
                                                flight_data.iloc[0]['X_meters'], flight_data.iloc[0]['Y_meters'],
                                                initial_altitude)
+
+# Función para calcular la distancia total (hipotenusa) entre dos puntos, considerando la altitud
+def calculate_total_distance_meters(x1, y1, x2, y2, alt1, alt2):
+    horizontal_distance = calculate_horizontal_distance_meters(x1, y1, x2, y2)
+    altitude_difference = alt2 - alt1
+    total_distance = np.sqrt(horizontal_distance**2 + altitude_difference**2)
+    return total_distance
+
+# Function for updating and recording data
 def update(frame):
     x = flight_data.iloc[frame]['X_meters']
     y = flight_data.iloc[frame]['Y_meters']
     altitude = flight_data.iloc[frame][altitude_col]
 
-    # Calcular el azimuth y la elevación relativos al punto de referencia
-    #azimuth = -1*(calculate_azimuth_meters(ref_x, ref_y, x, y) - initial_azimuth + 5)
-    azimuth = -1*(calculate_azimuth_meters(ref_x, ref_y, x, y) - initial_azimuth)
-    elevation = calculate_elevation_meters(altitude, ref_x, ref_y, x, y, initial_altitude) - initial_elevation
+    # Calculate azimuth and elevation relative to the reference point (from CSV)
+    csv_azimuth = -1 * (calculate_azimuth_meters(ref_x, ref_y, x, y) - initial_azimuth)
+    csv_elevation = calculate_elevation_meters(altitude, ref_x, ref_y, x, y, initial_altitude) - initial_elevation
+    #csv_elevation = calculate_elevation_meters(altitude, ref_x, ref_y, x, y, initial_altitude) - 8.45#initial_elevation
 
-    point.set_data([azimuth], [elevation])
+    # Calculate the total distance (hypotenuse) in meters
+    total_distance = calculate_total_distance_meters(ref_x, ref_y, x, y, initial_altitude, altitude)
 
-    plt.draw()
-    #plt.pause(0.001)
+    # Update the position of the blue point in the plot
+    point.set_data([csv_azimuth], [csv_elevation])
+
+    return csv_azimuth, csv_elevation, total_distance
 
 
 # Configuración inicial de la visualización
@@ -239,9 +267,9 @@ for wav_file in wav_files:
     skip_wav_seconds(wav_file, skip_seconds, RATE)
 
 
+# Loop principal (para procesamiento y almacenamiento de datos)
 try:
     for time_idx, i in zip(range(0, int(RATE / CHUNK * RECORD_SECONDS)), range(len(flight_data))):
-
         # Leer el siguiente bloque de datos para cada dispositivo
         for j, wav_file in enumerate(wav_files):
             block = read_wav_block(wav_file, CHUNK)
@@ -251,7 +279,7 @@ try:
 
         combined_signal = np.hstack(buffers)
 
-        # Filtrar el señal
+        # Filtrar la señal
         filtered_signal = apply_bandpass_filter(combined_signal, lowcut, highcut, RATE)
 
         # Beamforming
@@ -263,13 +291,39 @@ try:
         estimated_elevation = elevation_range[max_energy_idx[1]]
 
         # Calcular el tiempo actual de la muestra de audio
-        current_time = calculate_time(time_idx, CHUNK, RATE)
+        current_time_audio = calculate_time(time_idx, CHUNK, RATE)
 
-        # Actualizar el punto azul con la nueva posición del dron
-        update(i)
+        # Actualizar la posición del dron y obtener los ángulos y la distancia del CSV
+        csv_azimuth, csv_elevation, total_distance = update(i)
 
-        # Imprimir el ángulo estimado y el tiempo
-        print(f"Tiempo: {current_time + skip_seconds:.2f} s - Tiempo Log: {time_col} - Ángulo estimado: Azimut = {estimated_azimuth:.2f}°, Elevación = {estimated_elevation:.2f}°")
+        # Calcular la diferencia entre los ángulos del beamforming y el CSV
+        azimuth_diff, elevation_diff = calculate_angle_difference(estimated_azimuth, csv_azimuth, estimated_elevation, csv_elevation)
+
+        # Obtener el tiempo del CSV (tiempo de vuelo)
+        current_time_csv = flight_data.iloc[i][time_col]
+
+        # Crear un nuevo DataFrame con los datos actuales
+        new_data = pd.DataFrame([{
+            'Tiempo_Audio': current_time_audio + skip_seconds,
+            'Tiempo_CSV': current_time_csv,
+            'Azimut_Estimado': estimated_azimuth,
+            'Elevacion_Estimada': estimated_elevation,
+            'Azimut_CSV': csv_azimuth,
+            'Elevacion_CSV': csv_elevation,
+            'Dif_Azimut': azimuth_diff,
+            'Dif_Elevacion': elevation_diff,
+            'Distancia_Metros': total_distance
+        }])
+
+        # Concatenar el nuevo DataFrame con el existente
+        results_df = pd.concat([results_df, new_data], ignore_index=True)
+
+        # Imprimir los datos para monitoreo
+        print(f"Audio time: {current_time_audio + skip_seconds:.2f} s - CSV time: {current_time_csv} s - " \
+              f"SSL: Azim = {estimated_azimuth:.2f}°, Elev = {estimated_elevation:.2f}° " \
+              f"CSV: Azim = {csv_azimuth:.2f}°, Elev = {csv_elevation:.2f}° " \
+              f"Diff: Azim = {azimuth_diff:.2f}°, Elev = {elevation_diff:.2f}° - " \
+              f"Dist: {total_distance:.2f} mts")
 
         # Actualizar la posición del marcador de máxima energía
         max_energy_marker.set_data([estimated_azimuth], [estimated_elevation])
@@ -288,6 +342,13 @@ try:
     print("Simulación completada.")
     plt.ioff()
     plt.show()
+
 finally:
+    # Asegurarse de cerrar los archivos wav
     for wav_file in wav_files:
         wav_file.close()
+
+    # Guardar los resultados en un archivo CSV para análisis posterior
+    print(f"Guardando archivo CSV. Total de filas: {len(results_df)}")
+    results_df.to_csv('beamforming_results.csv', index=False)
+    print("Datos guardados en 'beamforming_results.csv'.")
