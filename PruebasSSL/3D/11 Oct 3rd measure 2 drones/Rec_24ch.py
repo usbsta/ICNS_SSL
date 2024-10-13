@@ -16,7 +16,6 @@ RECORD_SECONDS = 12000
 c = 343
 TARGET_DIFFERENCE = 200e-6
 peak_threshold = 0.5e8
-peak_threshold = 1e8
 
 device_index_1 = 3  # Zoom 3
 device_index_2 = 5  # Zoom 2
@@ -27,8 +26,7 @@ azimuth_range = np.arange(-180, 181, 5)
 elevation_range = np.arange(10, 91, 5)
 
 lowcut = 400.0
-highcut = 3000.0
-
+highcut = 8000.0
 
 a = [0, -120, -240]
 a2 = [-40, -80, -160, -200, -280, -320]
@@ -118,7 +116,7 @@ synced_12 = False
 synced_13 = False
 synced_14 = False
 
-window_size = int(0.05 * RATE)
+window_size = int(0.2 * RATE)
 
 buffer_lock = threading.Lock()
 
@@ -139,7 +137,7 @@ def shift_signal(signal, shift_amount):
 
 def plot_peaks(signals, peaks_indices, labels):
     plt.figure()
-    time_axis = np.linspace(0, 50, window_size)
+    time_axis = np.linspace(0, 200, window_size)
     for signal, peak_idx, label in zip(signals, peaks_indices, labels):
         plt.plot(time_axis, signal, label=label)
         if peak_idx is not None and 0 <= peak_idx < len(signal):  # Verificar que el índice del pico esté dentro de los límites

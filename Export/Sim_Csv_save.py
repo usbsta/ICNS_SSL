@@ -15,8 +15,8 @@ RECORD_SECONDS = 120000  # Tiempo de grabación
 lowcut = 400.0
 highcut = 8000.0
 
-azimuth_range = np.arange(-180, 181, 10)
-elevation_range = np.arange(0, 91, 10)
+azimuth_range = np.arange(-180, 181, 2)
+elevation_range = np.arange(0, 91, 2)
 
 a = [0, -120, -240]
 # config 1 equidistance

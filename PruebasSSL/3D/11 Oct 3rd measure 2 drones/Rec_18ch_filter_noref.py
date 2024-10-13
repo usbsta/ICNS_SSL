@@ -11,7 +11,7 @@ from scipy.signal import butter, filtfilt
 FORMAT = pyaudio.paInt32  # 32 bits
 CHANNELS = 6
 RATE = 48000
-CHUNK = int(0.2 * RATE)
+CHUNK = int(0.3 * RATE)
 RECORD_SECONDS = 12000
 c = 343
 TARGET_DIFFERENCE = 200e-6
@@ -19,7 +19,7 @@ peak_threshold = 0.5e8
 
 device_index_1 = 3  # Zoom 3
 device_index_2 = 4  # Zoom 2
-device_index_3 = 1  # Zoom
+device_index_3 = 1  # Zoom 1
 
 azimuth_range = np.arange(-180, 181, 5)
 elevation_range = np.arange(10, 91, 5)
@@ -28,21 +28,21 @@ lowcut = 400.0
 highcut = 8000.0
 
 
-a = [0, 120, 240]
+a = [0, -120, -240]
 
 # config 1 equidistance
 h = [1.12, 0.92, 0.77, 0.6, 0.42, 0.02]
 r = [0.1, 0.17, 0.25, 0.32, 0.42, 0.63]
 
 # config 2 augmented
-h = [1.12, 1.02, 0.87, 0.68, 0.47, 0.02]
-r = [0.1, 0.16, 0.23, 0.29, 0.43, 0.63]
+#h = [1.12, 1.02, 0.87, 0.68, 0.47, 0.02]
+#r = [0.1, 0.16, 0.23, 0.29, 0.43, 0.63]
 
 audio = pyaudio.PyAudio()
 
 output_filenames = ['device_1_sync.wav', 'device_2_sync.wav', 'device_3_sync.wav']
 output_filenames2 = ['device_1_nosync.wav', 'device_2_nosync.wav', 'device_3_nosync.wav']
-"""
+
 mic_positions = np.array([
     [r[0] * np.cos(np.radians(a[0])), r[0] * np.sin(np.radians(a[0])), h[0]],  # Mic 1
     [r[0] * np.cos(np.radians(a[1])), r[0] * np.sin(np.radians(a[1])), h[0]],  # Mic 2
@@ -62,8 +62,9 @@ mic_positions = np.array([
     [r[5] * np.cos(np.radians(a[0])), r[5] * np.sin(np.radians(a[0])), h[5]],  # Mic 16
     [r[5] * np.cos(np.radians(a[1])), r[5] * np.sin(np.radians(a[1])), h[5]],  # Mic 17
     [r[5] * np.cos(np.radians(a[2])), r[5] * np.sin(np.radians(a[2])), h[5]]]) # Mic 18])
-"""
 
+
+"""
 # config 3 rand
 h = [1.12, 0.97, 0.98, 0.97, 0.81, 0.88, 0.76, 0.68, 0.67, 0.65, 0.63, 0.49, 0.42, 0.02, 0.27, 0.34]
 r = [0.1, 0.18, 0.15, 0.18, 0.26, 0.24, 0.29, 0.3, 0.33, 0.35, 0.36, 0.37, 0.44, 0.63, 0.48, 0.46]
@@ -88,7 +89,7 @@ mic_positions = np.array([
     [r[14] * np.cos(np.radians(a[1])), r[14] * np.sin(np.radians(a[1])), h[14]],  # Mic 17
     [r[15] * np.cos(np.radians(a[2])), r[15] * np.sin(np.radians(a[2])), h[15]] # Mic 18
 ])
-
+"""
 
 # buffers preparation to store audio
 buffers = [np.zeros((CHUNK, CHANNELS), dtype=np.int32) for _ in range(3)] # syncro
@@ -105,7 +106,7 @@ total_correction_13 = 0
 synced_12 = False
 synced_13 = False
 
-window_size = int(0.05 * RATE)
+window_size = int(0.2 * RATE)
 
 buffer_lock = threading.Lock()
 
@@ -126,7 +127,7 @@ def shift_signal(signal, shift_amount):
 
 def plot_peaks(signals, peaks_indices, labels):
     plt.figure()
-    time_axis = np.linspace(0, 50, window_size)
+    time_axis = np.linspace(0, 200, window_size)
     for signal, peak_idx, label in zip(signals, peaks_indices, labels):
         plt.plot(time_axis, signal, label=label)
         if peak_idx is not None and 0 <= peak_idx < len(signal):  # Verificar que el índice del pico esté dentro de los límites
@@ -286,12 +287,13 @@ for time_idx in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
     combined_signal2 = np.hstack(buffers2)
     num_samples = combined_signal.shape[0]
 
-    peaks_1, _ = find_peaks(buffers[0][:, 3], height=peak_threshold)
-    peaks_2, _ = find_peaks(buffers[1][:, 0], height=peak_threshold)
-    peaks_4, _ = find_peaks(buffers[2][:, 3], height=peak_threshold)
+    peaks_1, _ = find_peaks(buffers[0][:, 5], height=peak_threshold)
+    peaks_2, _ = find_peaks(buffers[1][:, 5], height=peak_threshold)
+    peaks_4, _ = find_peaks(buffers[2][:, 5], height=peak_threshold)
 
-    if peaks_1.size > 0 and peaks_2.size > 0 and peaks_4.size > 0:
-        # Extraer una ventana de 3 ms alrededor de cada pico para graficar
+    if peaks_1.size > 0 and peaks_2.size > 0 and peaks_4.size > 0 and not (
+                synced_12 and synced_13 ):
+        # Extraer una ventana para graficar
         start_idx = max(peaks_1[0] - window_size // 2, 0)
         end_idx = start_idx + window_size
 
@@ -300,13 +302,13 @@ for time_idx in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
             end_idx = buffers[0].shape[0]
             start_idx = end_idx - window_size
 
-        signal_1_ch5 = buffers[0][start_idx:end_idx, 3] #chanel 4 device 1
-        signal_2_ch1 = buffers[1][start_idx:end_idx, 0] #chanel 1 device 2
-        signal_3_ch1 = buffers[2][start_idx:end_idx, 3] #chanel 4 device 3
+        signal_1_ch5 = buffers[0][start_idx:end_idx, 5] #chanel 6 device 1
+        signal_2_ch1 = buffers[1][start_idx:end_idx, 5] #chanel 6 device 2
+        signal_3_ch1 = buffers[2][start_idx:end_idx, 5] #chanel 6 device 3
 
         signals = [signal_1_ch5, signal_2_ch1, signal_3_ch1]
         peaks_indices = [peaks_1[0] - start_idx, peaks_2[0] - start_idx, peaks_4[0] - start_idx]
-        labels = ['Device 1 Channel 4', 'Device 2 Channel 1', 'Device 3 Channel 4']
+        labels = ['Device 1 Channel 6', 'Device 2 Channel 6', 'Device 3 Channel 6']
         plot_peaks(signals, peaks_indices, labels)
 
     # synchronization
@@ -325,6 +327,7 @@ for time_idx in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
             print(f"Applying correction of {correction_12} samples to synchronize devices 1 and 2.")
             synced_12 = True  # flag after synch 1 and 2
             print("synchronized 1 and 2")
+
 
         else:
             print(
@@ -361,7 +364,7 @@ for time_idx in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
     max_energy_idx = np.unravel_index(np.argmax(energy), energy.shape)
     estimated_azimuth = azimuth_range[max_energy_idx[0]]
     estimated_elevation = elevation_range[max_energy_idx[1]]
-    print(f"Estimated angle: Azimut = {estimated_azimuth:.2f}°, Elevación = {estimated_elevation:.2f}°")
+    #print(f"Estimated angle: Azimut = {estimated_azimuth:.2f}°, Elevación = {estimated_elevation:.2f}°")
     #print(np.min(energy),np.max(energy))
 
     # Actualizar los datos del mapa de calor

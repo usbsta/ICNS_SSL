@@ -19,15 +19,15 @@ def main():
 
     CHANNELS = 6
     RATE = 48000
-    CHUNK = int(0.1 * RATE)  # buffer 100 ms
+    CHUNK = int(0.01 * RATE)  # buffer 100 ms
     c = 343
     RECORD_SECONDS = 120000
 
     lowcut = 400.0
     highcut = 8000.0
 
-    azimuth_range = np.arange(-180, 181, 5)
-    elevation_range = np.arange(10, 91, 5)
+    azimuth_range = np.arange(-180, 181, 2)
+    elevation_range = np.arange(10, 91, 2)
 
     a = [0, -120, -240]
     # config 1 equidistance
@@ -39,6 +39,7 @@ def main():
     #r = [0.1, 0.16, 0.23, 0.29, 0.43, 0.63]
 
 
+    # Posiciones de los micrófonos
     mic_positions = np.array([
         [r[0] * np.cos(np.radians(a[0])), r[0] * np.sin(np.radians(a[0])), h[0]],  # Mic 1
         [r[0] * np.cos(np.radians(a[1])), r[0] * np.sin(np.radians(a[1])), h[0]],  # Mic 2
@@ -57,8 +58,8 @@ def main():
         [r[4] * np.cos(np.radians(a[2])), r[4] * np.sin(np.radians(a[2])), h[4]],  # Mic 15
         [r[5] * np.cos(np.radians(a[0])), r[5] * np.sin(np.radians(a[0])), h[5]],  # Mic 16
         [r[5] * np.cos(np.radians(a[1])), r[5] * np.sin(np.radians(a[1])), h[5]],  # Mic 17
-        [r[5] * np.cos(np.radians(a[2])), r[5] * np.sin(np.radians(a[2])), h[5]] # Mic 18
-    ])
+        [r[5] * np.cos(np.radians(a[2])), r[5] * np.sin(np.radians(a[2])), h[5]]  # Mic 18
+    ], dtype=np.float64)
 
     wav_filenames = ['/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_1_sync.wav',
                      '/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_2_sync.wav',
@@ -67,87 +68,72 @@ def main():
 
     buffers = [np.zeros((CHUNK, CHANNELS), dtype=np.int32) for _ in range(3)]
 
+    # Precalcular azimut y elevación en radianes
+    azimuth_rad = np.radians(azimuth_range)
+    elevation_rad = np.radians(elevation_range)
+    num_az = len(azimuth_rad)
+    num_el = len(elevation_rad)
+    num_mics = mic_positions.shape[0]
+
+    # Crear una cuadrícula de azimut y elevación
+    az_rad_grid, el_rad_grid = np.meshgrid(azimuth_rad, elevation_rad, indexing='ij')  # Shapes: (num_az, num_el)
+
+    # Calcular los vectores de dirección para todas las combinaciones
+    direction_vectors = np.empty((num_az, num_el, 3), dtype=np.float64)
+    direction_vectors[:, :, 0] = np.cos(el_rad_grid) * np.cos(az_rad_grid)
+    direction_vectors[:, :, 1] = np.cos(el_rad_grid) * np.sin(az_rad_grid)
+    direction_vectors[:, :, 2] = np.sin(el_rad_grid)
+
+    # Expandir mic_positions para broadcasting
+    mic_positions_expanded = mic_positions[:, np.newaxis, np.newaxis, :]  # Shape: (num_mics, 1, 1, 3)
+    direction_vectors_expanded = direction_vectors[np.newaxis, :, :, :]   # Shape: (1, num_az, num_el, 3)
+
+    # Calcular los retrasos
+    delays = np.sum(mic_positions_expanded * direction_vectors_expanded, axis=3) / c  # Shape: (num_mics, num_az, num_el)
+
+    # Calcular delay_samples
+    delay_samples = np.round(delays * RATE).astype(np.int32)  # Shape: (num_mics, num_az, num_el)
+
     # beamforming
-    @profile
-    def beamform_time(signal_data, mic_positions, azimuth_range, elevation_range, RATE, c):
-        num_samples = signal_data.shape[0]
-        energy = np.zeros((len(azimuth_range), len(elevation_range)))
+    @njit(parallel=True)
+    def beamform_time(signal_data, delay_samples):
+        num_samples, num_mics = signal_data.shape
+        num_mics, num_az, num_el = delay_samples.shape
+        energy = np.zeros((num_az, num_el))
 
-        for az_idx, theta in enumerate(azimuth_range):
-            azimuth_rad = np.radians(theta)
-
-            for el_idx, phi in enumerate(elevation_range):
-                elevation_rad = np.radians(phi)
-
-                # 3D direction vector
-                direction_vector = np.array([
-                    np.cos(elevation_rad) * np.cos(azimuth_rad),
-                    np.cos(elevation_rad) * np.sin(azimuth_rad),
-                    np.sin(elevation_rad)
-                ])
-
-                delays = (np.dot(mic_positions, direction_vector) / c)
-
-                # aplying delays
+        for az_idx in prange(num_az):
+            for el_idx in range(num_el):
                 output_signal = np.zeros(num_samples)
-                for i, delay in enumerate(delays):
-                    delay_samples = int(np.round(delay * RATE))
-                    signal_shifted = np.roll(signal_data[:, i], delay_samples)
-                    output_signal += signal_shifted
+                for mic_idx in range(num_mics):
+                    delay = delay_samples[mic_idx, az_idx, el_idx]
+                    shifted_signal = shift_signal(signal_data[:, mic_idx], delay)
+                    output_signal += shifted_signal
 
-                output_signal /= signal_data.shape[1]  # normalize amplitud with num of mics
+                output_signal /= num_mics
                 energy[az_idx, el_idx] = np.sum(output_signal ** 2)
         return energy
 
-    @profile
-    def beamform_frequency(signal_data, mic_positions, azimuth_range, elevation_range, RATE, c):
-        num_samples = signal_data.shape[0]
-        num_mics = signal_data.shape[1]
-        num_freqs = num_samples // 2 + 1
-        freqs = np.fft.rfftfreq(num_samples, d=1 / RATE)
+        return shifted_signal
 
-        # FFT de las señales
-        signal_fft = np.fft.rfft(signal_data, axis=0)
+    @njit
+    def shift_signal(signal, delay_samples):
+        num_samples = signal.shape[0]
+        shifted_signal = np.zeros_like(signal)
 
-        # Pre-cálculo de las direcciones
-        azimuth_rad = np.radians(azimuth_range)
-        elevation_rad = np.radians(elevation_range)
-        az_grid, el_grid = np.meshgrid(azimuth_rad, elevation_rad, indexing='ij')
+        if delay_samples > 0:
+            # Desplazar hacia adelante (retraso), rellenar al inicio
+            if delay_samples < num_samples:
+                shifted_signal[delay_samples:] = signal[:-delay_samples]
+        elif delay_samples < 0:
+            # Desplazar hacia atrás (adelanto), rellenar al final
+            delay_samples = -delay_samples
+            if delay_samples < num_samples:
+                shifted_signal[:-delay_samples] = signal[delay_samples:]
+        else:
+            # Sin desplazamiento
+            shifted_signal = signal.copy()
 
-        # Vector de dirección
-        direction_vectors = np.stack([
-            np.cos(el_grid) * np.cos(az_grid),
-            np.cos(el_grid) * np.sin(az_grid),
-            np.sin(el_grid)
-        ], axis=2).reshape(-1, 3).T  # Shape: (3, num_directions)
-
-        # Cálculo de los retrasos para todas las direcciones
-        delays = mic_positions @ direction_vectors / c  # Shape: (num_mics, num_directions)
-
-        # Cálculo de los cambios de fase
-        phase_shifts = np.exp(-2j * np.pi * freqs[:, np.newaxis, np.newaxis] * delays[np.newaxis, :,
-                                                                               :])  # Shape: (num_freqs, num_mics, num_directions)
-
-        # Beamforming
-        energy = beamform_frequency_numba(signal_fft, phase_shifts)
-
-        # Reshape de la energía al tamaño original
-        energy = energy.reshape(len(azimuth_range), len(elevation_range))
-
-        return energy
-
-    @njit(parallel=True)
-    def beamform_frequency_numba(signal_fft, phase_shifts):
-        num_freqs, num_mics = signal_fft.shape
-        num_directions = phase_shifts.shape[2]
-        energy = np.zeros(num_directions)
-
-        for d in prange(num_directions):
-            beamformed = np.zeros(num_freqs, dtype=np.complex64)
-            for m in range(num_mics):
-                beamformed += signal_fft[:, m] * phase_shifts[:, m, d]
-            energy[d] = np.sum(np.abs(beamformed) ** 2)
-        return energy
+        return shifted_signal
 
     def calculate_time(time_idx, chunk_size, rate):
         time_seconds = (time_idx * chunk_size) / rate
@@ -190,7 +176,7 @@ def main():
     wav_files = [wave.open(filename, 'rb') for filename in wav_filenames]
 
     skip_seconds = 115
-    skip_seconds = 633
+    #skip_seconds = 633
 
     for wav_file in wav_files:
         skip_wav_seconds(wav_file, skip_seconds, RATE)
@@ -217,7 +203,7 @@ def main():
             filtered_signal = apply_bandpass_filter(combined_signal, lowcut, highcut, RATE)
 
             #energy = beamform_frequency(filtered_signal, mic_positions, azimuth_range, elevation_range, RATE, c)
-            energy = beamform_time(filtered_signal, mic_positions, azimuth_range, elevation_range, RATE, c)
+            energy = beamform_time(filtered_signal, delay_samples)
 
             # Find the index of the maximum energyce de la máxima energía
             max_energy_idx = np.unravel_index(np.argmax(energy), energy.shape)
