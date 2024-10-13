@@ -16,11 +16,11 @@ RECORD_SECONDS = 120000  # Tiempo de grabación
 lowcut = 400.0
 highcut = 8000.0
 
-azimuth_range = np.arange(-180, 181, 10)
-elevation_range = np.arange(0, 91, 10)
+azimuth_range = np.arange(-180, 181, 2)
+elevation_range = np.arange(0, 91, 2)
 
-initial_azimuth = 10.0  # Azimut inicial deseado
-initial_elevation = -10.0  # Elevación inicial deseada
+initial_azimuth = 6.0  # Azimut inicial deseado
+initial_elevation = -5.0  # Elevación inicial deseada
 
 a = [0, -120, -240]
 # config 1 equidistance
@@ -55,64 +55,85 @@ mic_positions = np.array([
 
 # Nombres de los archivos WAV (para la opción de simulación)
 
-#wav_filenames = ['/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_1_sync.wav',
-#                 '/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_2_sync.wav',
-#                 '/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_3_sync.wav']
-
-wav_filenames = ['/Users/bjrn/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_1_sync.wav',
-                 '/Users/bjrn/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_2_sync.wav',
-                 '/Users/bjrn/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_3_sync.wav']
+wav_filenames = ['/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_1_sync.wav',
+                 '/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_2_sync.wav',
+                 '/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_3_sync.wav']
 
 buffers = [np.zeros((CHUNK, CHANNELS), dtype=np.int32) for _ in range(3)]
 
+# Precalcular azimut y elevación en radianes
+azimuth_rad = np.radians(azimuth_range)
+elevation_rad = np.radians(elevation_range)
+num_az = len(azimuth_rad)
+num_el = len(elevation_rad)
+num_mics = mic_positions.shape[0]
+
+# Crear una cuadrícula de azimut y elevación
+az_rad_grid, el_rad_grid = np.meshgrid(azimuth_rad, elevation_rad, indexing='ij')  # Shapes: (num_az, num_el)
+
+# Calcular los vectores de dirección para todas las combinaciones
+direction_vectors = np.empty((num_az, num_el, 3), dtype=np.float64)
+direction_vectors[:, :, 0] = np.cos(el_rad_grid) * np.cos(az_rad_grid)
+direction_vectors[:, :, 1] = np.cos(el_rad_grid) * np.sin(az_rad_grid)
+direction_vectors[:, :, 2] = np.sin(el_rad_grid)
+
+# Expandir mic_positions para broadcasting
+mic_positions_expanded = mic_positions[:, np.newaxis, np.newaxis, :]  # Shape: (num_mics, 1, 1, 3)
+direction_vectors_expanded = direction_vectors[np.newaxis, :, :, :]  # Shape: (1, num_az, num_el, 3)
+
+# Calcular los retrasos
+delays = np.sum(mic_positions_expanded * direction_vectors_expanded, axis=3) / c  # Shape: (num_mics, num_az, num_el)
+
+# Calcular delay_samples
+delay_samples = np.round(delays * RATE).astype(np.int32)  # Shape: (num_mics, num_az, num_el)
+
+
 # beamforming
-def beamform_time(signal_data, mic_positions, azimuth_range, elevation_range, RATE, c):
-    num_samples = signal_data.shape[0]
-    energy = np.zeros((len(azimuth_range), len(elevation_range)))
+@njit(parallel=True)
+def beamform_time(signal_data, delay_samples):
+    num_samples, num_mics = signal_data.shape
+    num_mics, num_az, num_el = delay_samples.shape
+    energy = np.zeros((num_az, num_el))
 
-    for az_idx, theta in enumerate(azimuth_range):
-        azimuth_rad = np.radians(theta)
-
-        for el_idx, phi in enumerate(elevation_range):
-            elevation_rad = np.radians(phi)
-
-            # 3D direction vector
-            direction_vector = np.array([
-                np.cos(elevation_rad) * np.cos(azimuth_rad),
-                np.cos(elevation_rad) * np.sin(azimuth_rad),
-                np.sin(elevation_rad)
-            ])
-
-            delays = (np.dot(mic_positions, direction_vector) / c)
-
-            # applying delays
+    for az_idx in prange(num_az):
+        for el_idx in range(num_el):
             output_signal = np.zeros(num_samples)
-            for i, delay in enumerate(delays):
-                delay_samples = int(np.round(delay * RATE))
-                signal_shifted = np.roll(signal_data[:, i], delay_samples)
-                output_signal += signal_shifted
+            for mic_idx in range(num_mics):
+                delay = delay_samples[mic_idx, az_idx, el_idx]
+                shifted_signal = shift_signal(signal_data[:, mic_idx], delay)
+                output_signal += shifted_signal
 
-            output_signal /= signal_data.shape[1]  # normalize amplitude with num of mics
+            output_signal /= num_mics
             energy[az_idx, el_idx] = np.sum(output_signal ** 2)
     return energy
 
+    return shifted_signal
+
+@njit
+def shift_signal(signal, delay_samples):
+    num_samples = signal.shape[0]
+    shifted_signal = np.zeros_like(signal)
+
+    if delay_samples > 0:
+            # Desplazar hacia adelante (retraso), rellenar al inicio
+        if delay_samples < num_samples:
+            shifted_signal[delay_samples:] = signal[:-delay_samples]
+    elif delay_samples < 0:
+            # Desplazar hacia atrás (adelanto), rellenar al final
+        delay_samples = -delay_samples
+        if delay_samples < num_samples:
+            shifted_signal[:-delay_samples] = signal[delay_samples:]
+    else:
+            # Sin desplazamiento
+        shifted_signal = signal.copy()
+
+    return shifted_signal
 
 
 def calculate_time(time_idx, chunk_size, rate):
     # Calculate the current time in seconds
     time_seconds = (time_idx * chunk_size) / rate
     return time_seconds
-
-def calculate_horizontal_distance_meters(x1, y1, x2, y2):
-    return np.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
-
-
-def read_wav_block(wav_file, chunk_size):
-    data = wav_file.readframes(chunk_size)
-    if len(data) == 0:
-        return None
-    signal_data = np.frombuffer(data, dtype=np.int32)
-    return np.reshape(signal_data, (-1, CHANNELS))
 
 def skip_wav_seconds(wav_file, seconds, rate):
     frames_to_skip = int(seconds * rate)
@@ -131,7 +152,6 @@ def apply_bandpass_filter(signal_data, lowcut, highcut, rate, order=5):
     filtered_signal = filtfilt(b, a, signal_data, axis=0)  # Aplicar filtro a lo largo de la señal en cada canal
     return filtered_signal
 
-# Read WAV files
 def read_wav_block(wav_file, chunk_size):
     data = wav_file.readframes(chunk_size)
     if len(data) == 0:
@@ -141,11 +161,9 @@ def read_wav_block(wav_file, chunk_size):
 
 
 # Cargar los archivos CSV
-#ref_file_path = '/Users/30068385/OneDrive - Western Sydney University/flight records/DJIFlightRecord_2024-09-24_[13-07-49].csv'
-#file_path_flight = '/Users/30068385/OneDrive - Western Sydney University/flight records/DJIFlightRecord_2024-09-24_[13-23-48].csv'
+ref_file_path = '/Users/30068385/OneDrive - Western Sydney University/flight records/DJIFlightRecord_2024-09-24_[13-07-49].csv'
+file_path_flight = '/Users/30068385/OneDrive - Western Sydney University/flight records/DJIFlightRecord_2024-09-24_[13-23-48].csv'
 
-ref_file_path = '/Users/bjrn/OneDrive - Western Sydney University/flight records/DJIFlightRecord_2024-09-24_[13-07-49].csv'
-file_path_flight = '/Users/bjrn/OneDrive - Western Sydney University/flight records/DJIFlightRecord_2024-09-24_[13-23-48].csv'
 
 # Leer el archivo de referencia y de vuelo
 ref_data = pd.read_csv(ref_file_path, skiprows=1, delimiter=',', low_memory=False)
@@ -310,8 +328,8 @@ try:
         # Filtrar la señal
         filtered_signal = apply_bandpass_filter(combined_signal, lowcut, highcut, RATE)
 
-        # Beamforming
-        energy = beamform_time(filtered_signal, mic_positions, azimuth_range, elevation_range, RATE, c)
+        # energy = beamform_frequency(filtered_signal, mic_positions, azimuth_range, elevation_range, RATE, c)
+        energy = beamform_time(filtered_signal, delay_samples)
 
         # Encontrar el índice de la máxima energía
         max_energy_idx = np.unravel_index(np.argmax(energy), energy.shape)

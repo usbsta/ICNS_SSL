@@ -54,13 +54,10 @@ mic_positions = np.array([
 
 # Nombres de los archivos WAV (para la opción de simulación)
 
-#wav_filenames = ['/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_1_sync.wav',
-#                 '/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_2_sync.wav',
-#                 '/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_3_sync.wav']
+wav_filenames = ['/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_1_sync.wav',
+                 '/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_2_sync.wav',
+                 '/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_3_sync.wav']
 
-wav_filenames = ['/Users/bjrn/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_1_sync.wav',
-                 '/Users/bjrn/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_2_sync.wav',
-                 '/Users/bjrn/OneDrive - Western Sydney University/recordings/Drone/24 sep/equi/device_3_sync.wav']
 
 buffers = [np.zeros((CHUNK, CHANNELS), dtype=np.int32) for _ in range(3)]
 
@@ -138,11 +135,8 @@ def read_wav_block(wav_file, chunk_size):
 
 
 # Cargar los archivos CSV
-#ref_file_path = '/Users/30068385/OneDrive - Western Sydney University/flight records/DJIFlightRecord_2024-09-24_[13-07-49].csv'
-#file_path_flight = '/Users/30068385/OneDrive - Western Sydney University/flight records/DJIFlightRecord_2024-09-24_[13-23-48].csv'
-
-ref_file_path = '/Users/bjrn/OneDrive - Western Sydney University/flight records/DJIFlightRecord_2024-09-24_[13-07-49].csv'
-file_path_flight = '/Users/bjrn/OneDrive - Western Sydney University/flight records/DJIFlightRecord_2024-09-24_[13-23-48].csv'
+ref_file_path = '/Users/30068385/OneDrive - Western Sydney University/flight records/DJIFlightRecord_2024-09-24_[13-07-49].csv'
+file_path_flight = '/Users/30068385/OneDrive - Western Sydney University/flight records/DJIFlightRecord_2024-09-24_[13-23-48].csv'
 
 # Leer el archivo de referencia y de vuelo
 ref_data = pd.read_csv(ref_file_path, skiprows=1, delimiter=',', low_memory=False)
