@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.signal import butter, filtfilt
 from pyproj import Proj, Transformer
 import pandas as pd
+from numba import njit, prange
 
 CHANNELS = 6  # Canales por dispositivo
 RATE = 48000  # Frecuencia de muestreo
@@ -94,6 +95,8 @@ def beamform_time(signal_data, mic_positions, azimuth_range, elevation_range, RA
             output_signal /= signal_data.shape[1]  # normalize amplitude with num of mics
             energy[az_idx, el_idx] = np.sum(output_signal ** 2)
     return energy
+
+
 
 def calculate_time(time_idx, chunk_size, rate):
     # Calculate the current time in seconds
