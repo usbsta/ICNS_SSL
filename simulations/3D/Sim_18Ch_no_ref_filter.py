@@ -10,15 +10,15 @@ from scipy.signal import butter, filtfilt
 
 CHANNELS = 6  # Canales por dispositivo
 RATE = 48000  # Frecuencia de muestreo
-CHUNK = int(0.1 * RATE)  # Tamaño del buffer en 200 ms
+CHUNK = int(0.2 * RATE)  # Tamaño del buffer en 100 ms
 c = 343  # Velocidad del sonido en m/s
 RECORD_SECONDS = 120000  # Tiempo de grabación
 
 lowcut = 400.0
 highcut = 8000.0
 
-azimuth_range = np.arange(-180, 181, 2)
-elevation_range = np.arange(10, 91, 2)
+azimuth_range = np.arange(-180, 181, 3)
+elevation_range = np.arange(10, 91, 3)
 
 a = [0, -120, -240]
 # config 1 equidistance
@@ -150,7 +150,7 @@ max_energy_text = ax.text(0, 0, '', color='white', fontsize=12, ha='center')
 wav_files = [wave.open(filename, 'rb') for filename in wav_filenames]
 
 skip_seconds = 115
-skip_seconds = 630
+#skip_seconds = 630
 
 for wav_file in wav_files:
     skip_wav_seconds(wav_file, skip_seconds, RATE)
