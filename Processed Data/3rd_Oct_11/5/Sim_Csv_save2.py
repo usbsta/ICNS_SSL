@@ -302,10 +302,10 @@ plt.ion()
 fig, ax = plt.subplots(figsize=(15, 5))
 cax = ax.imshow(np.zeros((len(elevation_range), len(azimuth_range))),
                 extent=[azimuth_range[0], azimuth_range[-1], elevation_range[0], elevation_range[-1]],
-                origin='lower', aspect='auto', cmap='viridis')
+                origin='lower', aspect='auto', cmap='coolwarm')
 
 # Punto que representa la posición del dron
-point, = ax.plot([], [], 'bo', markersize=5)  # Crear el punto azul
+point, = ax.plot([], [], 'k+', markersize=35)  # Crear el punto azul
 fig.colorbar(cax, ax=ax, label='Energy')
 ax.set_xlabel('Azimut')
 ax.set_ylabel('Elevation')
@@ -375,19 +375,20 @@ try:
         # Concatenar el nuevo DataFrame con el existente
         results_df = pd.concat([results_df, new_data], ignore_index=True)
 
-        # Imprimir los datos para monitoreo
-        print(f"Audio time: {current_time_audio + skip_seconds:.2f} s - CSV time: {current_time_csv} s - " \
+
+
+        print(f"Dist: {total_distance:.2f} mts "\
+              f"Audio time: {current_time_audio + skip_seconds:.2f} s - CSV time: {current_time_csv} s - " \
               f"SSL: Azim = {estimated_azimuth:.2f}°, Elev = {estimated_elevation:.2f}° " \
               f"CSV: Azim = {csv_azimuth:.2f}°, Elev = {csv_elevation:.2f}° " \
-              f"Diff: Azim = {azimuth_diff:.2f}°, Elev = {elevation_diff:.2f}° - " \
-              f"Dist: {total_distance:.2f} mts")
+              f"Diff: Azim = {azimuth_diff:.2f}°, Elev = {elevation_diff:.2f}° - ")
 
         # Actualizar la posición del marcador de máxima energía
         max_energy_marker.set_data([estimated_azimuth], [estimated_elevation])
 
         # Actualizar la posición del texto con las coordenadas
         max_energy_text.set_position((estimated_azimuth, estimated_elevation))
-        max_energy_text.set_text(f"Az: {estimated_azimuth:.1f}°, El: {estimated_elevation:.1f}°")
+        #max_energy_text.set_text(f"Az: {estimated_azimuth:.1f}°, El: {estimated_elevation:.1f}°")
 
         # Actualizar los datos del mapa de calor
         cax.set_data(energy.T)

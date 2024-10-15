@@ -22,11 +22,11 @@ device_index_2 = 5  # Zoom 2
 device_index_3 = 4  # Zoom 1
 device_index_4 = 1  # Zoom 0
 
-azimuth_range = np.arange(-180, 181, 5)
-elevation_range = np.arange(10, 91, 5)
-
 lowcut = 400.0
 highcut = 8000.0
+
+azimuth_range = np.arange(-180, 181, 2)
+elevation_range = np.arange(0, 91, 2)
 
 a = [0, -120, -240]
 a2 = [-40, -80, -160, -200, -280, -320]
@@ -34,11 +34,6 @@ a2 = [-40, -80, -160, -200, -280, -320]
 # config 1 equidistance
 h = [1.12, 0.92, 0.77, 0.6, 0.42, 0.02]
 r = [0.1, 0.17, 0.25, 0.32, 0.42, 0.63]
-
-# config 2 augmented
-h = [1.12, 1.02, 0.87, 0.68, 0.47, 0.02]
-r = [0.1, 0.16, 0.23, 0.29, 0.43, 0.63]
-
 
 audio = pyaudio.PyAudio()
 
@@ -104,6 +99,7 @@ buffers2 = [np.zeros((CHUNK, CHANNELS), dtype=np.int32) for _ in range(4)]
 frames = [[], [], [], []]  # frames for 4 devices
 frames2 = [[], [], [], []]  # frames for 4 devices
 
+# variables for synchronization
 correction_12 = None  # correction between 1 and 2
 correction_13 = None
 correction_14 = None

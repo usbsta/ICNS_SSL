@@ -6,6 +6,9 @@ from pyproj import Proj, Transformer
 import pandas as pd
 from numba import njit, prange
 from scipy.io import savemat
+from scipy.io.wavfile import write
+
+beamformed_signal_list = []
 
 CHANNELS = 6  # Canales por dispositivo
 RATE = 48000  # Frecuencia de muestreo
@@ -17,8 +20,8 @@ RECORD_SECONDS = 120000  # Tiempo de grabación
 lowcut = 400.0
 highcut = 2000.0
 
-azimuth_range = np.arange(-180, 181, 2)
-elevation_range = np.arange(0, 91, 2)
+azimuth_range = np.arange(-180, 181, 0.5)
+elevation_range = np.arange(0, 91, 0.5)
 
 initial_azimuth = -5.0  # Azimut inicial deseado
 initial_elevation = 0.0  # Elevación inicial deseada
@@ -143,6 +146,13 @@ def calculate_time(time_idx, chunk_size, rate):
     time_seconds = (time_idx * chunk_size) / rate
     return time_seconds
 
+def read_wav_block(wav_file, chunk_size):
+    data = wav_file.readframes(chunk_size)
+    if len(data) == 0:
+        return None
+    signal_data = np.frombuffer(data, dtype=np.int32)
+    return np.reshape(signal_data, (-1, CHANNELS))
+
 def skip_wav_seconds(wav_file, seconds, rate):
     frames_to_skip = int(seconds * rate)
     wav_file.setpos(frames_to_skip)
@@ -160,12 +170,6 @@ def apply_bandpass_filter(signal_data, lowcut, highcut, rate, order=5):
     filtered_signal = filtfilt(b, a, signal_data, axis=0)  # Aplicar filtro a lo largo de la señal en cada canal
     return filtered_signal
 
-def read_wav_block(wav_file, chunk_size):
-    data = wav_file.readframes(chunk_size)
-    if len(data) == 0:
-        return None
-    signal_data = np.frombuffer(data, dtype=np.int32)
-    return np.reshape(signal_data, (-1, CHANNELS))
 
 ######          CSV         ########
 
@@ -326,12 +330,19 @@ energy_data = []
 # Loop principal (para procesamiento y almacenamiento de datos)
 try:
     for time_idx, i in zip(range(0, int(RATE / CHUNK * RECORD_SECONDS)), range(len(flight_data))):
+        finished = False
+
         # Leer el siguiente bloque de datos para cada dispositivo
         for j, wav_file in enumerate(wav_files):
             block = read_wav_block(wav_file, CHUNK)
             if block is None:
+                finished = True  # Set flag to break out of the loop
                 break  # Si se alcanzó el final del archivo
             buffers[j] = block
+
+        if finished:
+            print("Fin del archivo de audio.")
+            break
 
         combined_signal = np.hstack(buffers)
 
@@ -342,10 +353,24 @@ try:
         energy = beamform_time(filtered_signal, delay_samples)
         energy_data.append(energy)
 
+        # Variables para almacenar las señales beamformed de máxima y mínima energía
+
         # Encontrar el índice de la máxima energía
         max_energy_idx = np.unravel_index(np.argmax(energy), energy.shape)
         estimated_azimuth = azimuth_range[max_energy_idx[0]]
         estimated_elevation = elevation_range[max_energy_idx[1]]
+
+        delays_at_estimated = delay_samples[:, max_energy_idx[0], max_energy_idx[1]]
+        beamformed_signal_chunk = np.zeros(combined_signal.shape[0])
+        for mic_idx in range(num_mics):
+            delay = delays_at_estimated[mic_idx]
+            shifted_signal = shift_signal(combined_signal[:, mic_idx], delay)
+            beamformed_signal_chunk += shifted_signal
+
+        beamformed_signal_chunk /= num_mics  # Normalizar
+
+        # Agregar el fragmento beamformado a la lista
+        beamformed_signal_list.append(beamformed_signal_chunk)
 
         # Calcular el tiempo actual de la muestra de audio
         current_time_audio = calculate_time(time_idx, CHUNK, RATE)
@@ -411,3 +436,19 @@ finally:
     print(f"Guardando archivo CSV. Total de filas: {len(results_df)}")
     results_df.to_csv('beamforming_results.csv', index=False)
     print("Datos guardados en 'beamforming_results.csv'.")
+
+    # After the loop, concatenate and save the beamformed signal
+    beamformed_signal = np.concatenate(beamformed_signal_list)
+
+    # Normalize the beamformed signal
+    max_abs_value = np.max(np.abs(beamformed_signal))
+    if max_abs_value > 0:
+        beamformed_signal /= max_abs_value  # Normalize to -1 to 1
+
+    # Convert to int16 format
+    beamformed_signal_int16 = np.int16(beamformed_signal * 32767)
+
+    # Write to WAV file
+    write('beamformed_signal_estimated_position_beam.wav', RATE, beamformed_signal_int16)
+
+    print("Señal beamformada guardada en 'beamformed_signal_estimated_position.wav'.")
