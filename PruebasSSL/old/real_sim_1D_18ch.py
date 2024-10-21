@@ -1,9 +1,13 @@
-import pyaudio
 import numpy as np
 import wave
-from scipy.signal import find_peaks
 import matplotlib.pyplot as plt
-import threading
+from scipy.signal import butter, filtfilt, find_peaks
+from pyproj import Proj, Transformer
+import pandas as pd
+from numba import njit, prange
+from scipy.io import savemat
+from scipy.io.wavfile import write
+import pyaudio
 
 # Configuración de audio
 FORMAT = pyaudio.paInt32  # 32 bits
@@ -28,6 +32,10 @@ angles_range = np.arange(-90, 91, 1)
 
 # Nombres de los archivos WAV (para la opción de simulación)
 wav_filenames = ['device_1_sync.wav', 'device_2_sync.wav', 'device_3_sync.wav']
+
+wav_filenames = ['/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/3rd Oct 11/5/device_1_nosync.wav',
+                 '/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/3rd Oct 11/5/device_2_nosync.wav',
+                 '/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/3rd Oct 11/5/device_3_nosync.wav']
 
 # Preparar gráfico para mostrar en tiempo real
 plt.ion()

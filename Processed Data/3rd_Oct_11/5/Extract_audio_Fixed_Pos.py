@@ -421,11 +421,12 @@ try:
         cax.set_data(energy.T)
         cax.set_clim(vmin=np.min(energy), vmax=np.max(energy))  # Actualizar los límites del color
 
-        fig.canvas.draw()
-        fig.canvas.flush_events()
+
+        #fig.canvas.draw()
+        #fig.canvas.flush_events()
 
     # Guardar la lista de matrices de energía en un archivo .mat al final del bucle
-    savemat('energy_data.mat', {'energy_data': energy_data})
+    #savemat('energy_data.mat', {'energy_data': energy_data})
     print("Simulación completada.")
     plt.ioff()
     plt.show()

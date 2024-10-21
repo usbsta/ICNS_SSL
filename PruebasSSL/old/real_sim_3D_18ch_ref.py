@@ -36,6 +36,10 @@ wav_filenames = ['/Users/bjrn/Desktop/Measurements/18ch_3D_outside/device_1_sync
                  '/Users/bjrn/Desktop/Measurements/18ch_3D_outside/device_2_sync.wav',
                  '/Users/bjrn/Desktop/Measurements/18ch_3D_outside/device_3_sync.wav']
 
+wav_filenames = ['/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/3rd Oct 11/5/device_1_nosync.wav',
+                 '/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/3rd Oct 11/5/device_2_nosync.wav',
+                 '/Users/30068385/OneDrive - Western Sydney University/recordings/Drone/3rd Oct 11/5/device_3_nosync.wav']
+
 mic_positions = np.array([
     [r[0] * np.cos(np.radians(0)), r[0] * np.sin(np.radians(0)), h[0]],  # Mic 1
     [r[0] * np.cos(np.radians(120)), r[0] * np.sin(np.radians(120)), h[0]],  # Mic 2

@@ -10,9 +10,9 @@ from scipy.io.wavfile import write
 
 beamformed_signal_list = []
 
-CHANNELS = 6  # Canales por dispositivo
-RATE = 48000  # Frecuencia de muestreo
-BUFFER = 0.1 # Buffer time 100 ms
+CHANNELS = 6
+RATE = 48000
+BUFFER = 0.1
 CHUNK = int(BUFFER * RATE)
 c = 343  # Velocidad del sonido en m/s
 RECORD_SECONDS = 120000  # Tiempo de grabación
@@ -346,20 +346,6 @@ try:
 
         combined_signal = np.hstack(buffers)
 
-        # Filtrar la señal
-        filtered_signal = apply_bandpass_filter(combined_signal, lowcut, highcut, RATE)
-
-        # energy = beamform_frequency(filtered_signal, mic_positions, azimuth_range, elevation_range, RATE, c)
-        energy = beamform_time(filtered_signal, delay_samples)
-        energy_data.append(energy)
-
-        # Variables para almacenar las señales beamformed de máxima y mínima energía
-
-        # Encontrar el índice de la máxima energía
-        max_energy_idx = np.unravel_index(np.argmax(energy), energy.shape)
-        estimated_azimuth = azimuth_range[max_energy_idx[0]]
-        estimated_elevation = elevation_range[max_energy_idx[1]]
-
         # Actualizar la posición del dron y obtener los ángulos y la distancia del CSV
         csv_azimuth, csv_elevation, total_distance = update(i)
 
@@ -378,6 +364,21 @@ try:
 
         # Append the beamformed chunk to the list
         beamformed_signal_list.append(beamformed_signal_chunk)
+
+        # Filtrar la señal
+        filtered_signal = apply_bandpass_filter(combined_signal, lowcut, highcut, RATE)
+
+        # energy = beamform_frequency(filtered_signal, mic_positions, azimuth_range, elevation_range, RATE, c)
+        energy = beamform_time(filtered_signal, delay_samples)
+        energy_data.append(energy)
+
+        # Variables para almacenar las señales beamformed de máxima y mínima energía
+
+        # Encontrar el índice de la máxima energía
+        max_energy_idx = np.unravel_index(np.argmax(energy), energy.shape)
+        estimated_azimuth = azimuth_range[max_energy_idx[0]]
+        estimated_elevation = elevation_range[max_energy_idx[1]]
+
         # Calcular el tiempo actual de la muestra de audio
         current_time_audio = calculate_time(time_idx, CHUNK, RATE)
 
@@ -424,11 +425,11 @@ try:
         cax.set_data(energy.T)
         cax.set_clim(vmin=np.min(energy), vmax=np.max(energy))  # Actualizar los límites del color
 
-        fig.canvas.draw()
-        fig.canvas.flush_events()
+        #fig.canvas.draw()
+        #fig.canvas.flush_events()
 
     # Guardar la lista de matrices de energía en un archivo .mat al final del bucle
-    savemat('energy_data.mat', {'energy_data': energy_data})
+    #savemat('energy_data.mat', {'energy_data': energy_data})
     print("Simulación completada.")
     plt.ioff()
     plt.show()

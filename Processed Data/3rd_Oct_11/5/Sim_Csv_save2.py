@@ -302,7 +302,7 @@ plt.ion()
 fig, ax = plt.subplots(figsize=(15, 5))
 cax = ax.imshow(np.zeros((len(elevation_range), len(azimuth_range))),
                 extent=[azimuth_range[0], azimuth_range[-1], elevation_range[0], elevation_range[-1]],
-                origin='lower', aspect='auto', cmap='coolwarm')
+                origin='lower', aspect='auto', cmap='jet', interpolation='nearest')
 
 # Punto que representa la posición del dron
 point, = ax.plot([], [], 'k+', markersize=35)  # Crear el punto azul
