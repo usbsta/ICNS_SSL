@@ -1,0 +1,544 @@
+﻿article,"How many microphones are used in the array? (Ex: 16, or 8, 16 in case of two evaluated arrays)",Mics,What SSL algorithms are evaluated?,"Is a neural network used for localization, filtering or neither?",What is the sampling rate?,samp,What ego-noise mitigation strategies are used?,Other noise mitigation strategy:,What are the signal sources?,sound,Does the work address single or multiple SSL?,What is the distance to the sound source in the reported experiments? (in meters),What is(are) the reported SNR in the experiments?,Where are the microphones places in relation to the UAV?,What are the evaluated array configurations?,configuration,Shortest mic distance,Longest mic distance,Angle Detection,Error in angle,What is the hovering height of the drone in the experiments?,Drone model(s),"Drone category (micro: 250 g or less · very small: more than 250 g, but not more than 2 kg · small: more than 2 kg, but not more than 25 kg)","Drone type (multirotor, airplane, VTOL, helicopter)",Where is the initial signal filtering performed?,Where is the DOA algorithm executed? ,Strong aspects of the paper (bullet points),Limitations (including future work) of the paper (bullet points),Dataset availability,"Additional comments, if needed",Bibtex citation ,cite string,Reader
+Acoustic Source Localization From Multirotor UAVs,8,8,"DU-NORT (proposed)
+MUSIC
+SRP-PHAT",no,48 KHz,48,"Distancing of the microphones from the drone rotors, Wind-damping mufflers",,"A person shouting, Whistle, White noise or similar","Human speech, White noise",Single,15 to 35m,0 to -22 dB,Below,2D Radial,2D Radial,,,,,15 to 35m,DJI Matrice 100 quadcopter (2.3 kg),small,multirotor,Simulation,Offline,- Noise of bulldozers and digging machines is used to test robustness to interference,"- Load hanging on ropes below the drone can affect its maneuverability and SSL precision
+- UAV in stable hovering or moving with a constant speed (almost stationary noise spectrum)
+- Signal positioned",Not mentioned,"- 8-microphone UCA with a diameter of 196 mm
+- The array is mounted on a hanging circular plate, 1m below the drone, and is directed toward the ground
+- Works well up to -19 dB of signal to propeller noise ratio (SPNR)","@article{salvati2019acoustic,
+  title={Acoustic source localization from multirotor UAVs},
+  author={Salvati, Daniele and Drioli, Carlo and Ferrin, Giovanni and Foresti, Gian Luca},
+  journal={IEEE Transactions on Industrial Electronics},
+  volume={67},
+  number={10},
+  pages={8618--8628},
+  year={2019},
+  publisher={IEEE}
+}",\cite{salvati2019acoustic},Sergio
+Tracking a moving sound source from a multi-rotor drone,8,8,SRP-PHAT,no,not informed,,Wind-damping mufflers,time-frequency filtering,A person shouting,Human speech,Single,2 to 6 m,-10 to -25 dB,Above,2D Radial,2D Radial,,,,,1.8 m,3DR IRIS,very small,multirotor,Simulation,Simulation,"- array (20cm diameter) is placed 15cm above (avoiding downwards wind) and slightly in front (small noiseless sector) of the drone
+- the drone generates ego-noise with time-varying power","- Fixed height of 1.8 m
+- Maximum distance to target is 6 m
+- Limited to a single sound source",http://www.eecs.qmul.ac.uk/∼andrea/sst.html (error when opening),"Follow-up work from ""Acoustic Sensing From a Multi-Rotor Drone""","@inproceedings{wang2018tracking,
+  title={Tracking a moving sound source from a multi-rotor drone},
+  author={Wang, Lin and Sanchez-Matilla, Ricardo and Cavallaro, Andrea},
+  booktitle={2018 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
+  pages={2511--2516},
+  year={2018},
+  organization={IEEE}
+}",\cite{wang2018tracking},Sergio
+DREGON: Dataset and Methods for UAV-Embedded Sound Source Localization,8,8,"GCC-PHAT
+WF + GCC-PHAT
+SEVD-MUSIC
+GEVD-MUSIC",no,44.1 kHz,44.1,Spectral filtering,,"A person shouting, White noise or similar","Human speech, White noise",Single,2.4,-25 to 30 dB,Below,Other,Cubic. Dregon,,,,,Up to 3m (unclear),MK-Quadro from MikroKopter,very small,multirotor,Simulation,Offline,- 3D position and IMU readings are included,"- Recordings in indoor rooms (largest was 12x12x3.5m), however with low reverberation (under 150 ms)
+- The noise components for the multichannel Wiener filter (MWF) uses a noise-only signal of sufficient length",dregon.inria.fr,,"@inproceedings{strauss2018dregon,
+  title={DREGON: Dataset and methods for UAV-embedded sound source localization},
+  author={Strauss, Martin and Mordel, Pol and Miguet, Victor and Deleforge, Antoine},
+  booktitle={2018 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
+  pages={1--8},
+  year={2018},
+  organization={IEEE}
+}",\cite{strauss2018dregon},Sergio
+Acoustic Sensing From a Multi-Rotor Drone,8,8,"wHisK (proposed)
+GEVD-MUSIC
+SRP-PHAT",no,8 KHz,8,"Distancing of the microphones from the drone rotors, Wind-damping mufflers",time-frequency filtering,A person shouting,Human speech,Single,3,−30 dB to 5 dB,Above,2D Radial,2D Radial,,,,,MAV fixed on a tripod at a height of 1.8 m,3DR IRIS quadcopter,very small,multirotor,Simulation,Simulation,- The speed of rotors is varied during recordings,"- Low hovering height of 1.8m (mics are positioned above the drone), while the source is 3m away at 1.3m height
+- The ego-noise and the target sound are recorded separately and then added together at a varying input SNR
+- Limited to a single sound source
+- Natural noises and wind not included in the experiments
+- Computational cost not addressed",Not mentioned,"8-microphone circular array with diameter d = 0.2 m. The array is placed on the top side of the MAV body (at a distance of 0.15 m) in order to avoid the self-generated wind blowing downwards from the propellers. The array is also displaced closer to the front of the drone, which improves the noiseless sector, while keeping the array in within the collision protection area.","@article{wang2018acoustic,
+  title={Acoustic sensing from a multi-rotor drone},
+  author={Wang, Lin and Cavallaro, Andrea},
+  journal={IEEE Sensors Journal},
+  volume={18},
+  number={11},
+  pages={4570--4582},
+  year={2018},
+  publisher={IEEE}
+}",\cite{wang2018acoustic},Sergio
+On-Board Relative Bearing Estimation for Teams of Drones Using Sound,4,4,GCC-PHAT,no,40 kHz,40,"Spectral filtering, Wind-damping mufflers",,"Other, Other drones",Drones,Both,"3m (passive, inside a room)
+up to 60m (chirping, outdoors), 150m (engines off)",Not reported,Around,Other,Pyramidal,,,,,"Unclear
+On the ground inside and some outside experiments",Unclear - pocket-size (31 grams) and small (440 grams) drones with 4 rotors,"micro, very small",multirotor,Locally,Real-time locally,"- very light triangular (3.5 grams) and tetrahedral (21 grams) arrays
+- Atmel AVR32 microcontroller used for onboard computation
+- Localization of up to 3 targets in a room (6x3.5x3)",- outdoor test only with chirping sound produced by other drones,Not mentioned,"Simple approach, stands out for using local processing on AVR32","@article{basiri2016board,
+  title={On-board relative bearing estimation for teams of drones using sound},
+  author={Basiri, Meysam and Schill, Felix and Lima, Pedro and Floreano, Dario},
+  journal={IEEE Robotics and Automation letters},
+  volume={1},
+  number={2},
+  pages={820--827},
+  year={2016},
+  publisher={IEEE}
+}",\cite{basiri2016board},Sergio
+Alternating Drive-and-Glide Flight Navigation of a Kiteplane for Sound Source Position Estimation,8,8, iGEVD-MUSIC,no,unstated - experiment was conducted on a simulation.,,Other,ALTDGF - Alternating Flight drive to glide. Controlled rotor activity such as flying at low speeds.,A person shouting,Human speech,Single,200 meters.,"-10dB (Ego: 90 db, human: 80db)",Below,2D Radial,2D Radial,,,,,Up to 30 meters.,"Kiteplane, self built",small,glider plane,Simulation,Simulation,Use of kiteplane. High range reported(under simulatons),All reported data is in Simulation such as the high 200m range( as opposed to offline experiments reporting 5 meters),N/A,Our paper could provide non simulation data values and get far more realistic results.,"@inproceedings{kumon2021alternating,
+  title={Alternating drive-and-glide flight navigation of a kiteplane for sound source position estimation},
+  author={Kumon, Makoto and Okuno, Hiroshi G and Tajima, Shuichi},
+  booktitle={2021 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
+  pages={2114--2120},
+  year={2021},
+  organization={IEEE}
+}",\cite{kumon2021alternating},Abishek
+Direction of Arrival Estimation through Noise Supression: A Novel Approach using GSC Beamforming and Room Acoustic Simulation,8,8,"GCC-PATH
+GCC-NON-LIN",no,44.1 KHz,44.1,Other,"Generalized Sidelobe Canceller (GSC)
+Wiener filter",A person shouting,Human speech,Multiple,Not given,-20 to -15 dB,Below,Other,Cubic. Dregon,,,Azimuth and Elevation,< 10 degrees,Not given,Simulated,Simulated,Simulated,Simulation,,"- The novelty of the paper lies in applying general sidelobe cancellation on a multi-channel audio and to regain the phase information using pyroomacoustics considering the microphone array structure simulation.
+- Multi-channel BSS Locate software aims at localizing audio sources in 3D audio scene based on recorded signals using an array of N microphones. Localization is achieved under far field assumption based on a choice between several local angular spectrum methods. Available local angular spectrum methods are those used in BSS Locate Toolbox: GCC-PHAT, GCC NON LIN, MVDR, MVDRW, DS, DSW and DNM.",The method requires previous knowledge of the noise to be used for the wiener filter.,Dregon,,"@inproceedings{qayyum2019direction,
+  title={Direction of Arrival Estimation through Noise Supression: A Novel Approach using GSC Beamforming and Room Acoustic Simulation},
+  author={Qayyum, Alif Bin Abdul Abdul and Anika, Adrita and Miah, Md Messal Monem and Rahman, Md Mushfiqur and Hasan, KM Naimul and Islam, Md Tariqul and Shouborno, Sheikh Asif Imran and Shadiq, Md Farhan and Haque, Mohammad Ariful},
+  booktitle={2019 IEEE International Conference on Signal Processing, Information, Communication \& Systems (SPICSCON)},
+  pages={104--108},
+  year={2019},
+  organization={IEEE}
+}",\cite{qayyum2019direction},Jahir Rodríguez
+Audio-Processing-Based Human Detection at Disaster Sites With Unmanned Aerial Vehicle,4 (PlayStation Eye),4,MUSIC (HARKTOOL5 Implemented),no,Not defined,,Spectral filtering,None,A person shouting,Human speech,Single,1 to 5m,Not presented,Above,2D Linear,2D Linear,,,,,3,Custom built,very small,multirotor,On a remote server,Real-time on a remote server,"- Experiments are focused on the accuracy of human detection and sound-source localization and the processing speed
+- Experiments combines voice and camera for human detection.","- The host computer receives an audio file recorded for 10s and takes 20 s to process it; as such, the detection system completes one cycle every 30 s.
+- Recognition rate drops to 10% at 5m distance",Not defined,,"@article{yamazaki2020audio,
+  title={Audio-Processing-Based human detection at disaster sites with unmanned aerial vehicle},
+  author={Yamazaki, Yuki and Premachandra, Chinthaka and Perea, Chamika Janith},
+  journal={IEEE Access},
+  volume={8},
+  pages={101398--101405},
+  year={2020},
+  publisher={IEEE}
+}",\cite{yamazaki2020audio},Jahir Rodríguez
+Conformal Cylindrical Array Sound Source Localization at the Presence of Shadowed Elements,6 to 12,6,"SR-MUSIC-RS (proposed),C-MUSIC-GS,C-MUSIC-CS,S-MUSIC-RS,GRNN-RS(Page17)",no,16kHz(page9),16,Other,Removal of 'shadow effect'(Page7),Other,Other,Single,5m,-10 to 30 DB range(page 7),Below,Other,Cylindrical,,,,,The drone is not stated to be floating,Simulation,Simulation,Simulation,Simulation,Simulation,Completely eliminates shadow effect in one specific configuration.,"Very little non-simulation experiment conducted.
+Ignores real life effects such as doppler spread.",Not provided,Real life application of the paper to see the % effects of using the configuration and mathematics can be compared.,"@article{li2023conformal,
+  title={Conformal cylindrical array sound source localization at the presence of shadowed elements},
+  author={Li, Jiaheng and Tong, Feng and Zhou, Yuehai and Yang, Yi and Hu, Zhiqiang},
+  journal={IEEE Internet of Things Journal},
+  volume={10},
+  number={20},
+  pages={17694--17704},
+  year={2023},
+  publisher={IEEE}
+}",\cite{li2023conformal},Abishek Soti
+Bearings-only aerial shooter localization using a microphone array mounted on a drone,5,5,GCC-PHAT,no,not specified,,Other,Not specified,Gun shots,Gun shots,Single,180m (inferred from pictures),-7 dB,not specified,Other,,,,Azimuth and Elevation,5.7 degrees,"Not speficied, just presents as the same height as the shooter",PARROT AR.Drone 2.0.,very small,multirotor,Simulation,Simulation,Use of total least squares (TLS) for improving localization accuracy,do not explicitly describe specific ego-noise mitigation,not mentioned,,"@inproceedings{fernandes2017bearings,
+  title={Bearings-only aerial shooter localization using a microphone array mounted on a drone},
+  author={Fernandes, Rigel P and Apolin{\'a}rio, Jos{\'e} A and Ramos, Ant{\'o}nio LL},
+  booktitle={2017 IEEE 8th Latin American Symposium on Circuits \& Systems (LASCAS)},
+  pages={1--4},
+  year={2017},
+  organization={IEEE}
+}",\cite{fernandes2017bearings},Jahir Rodriguez
+Drone audition listening from the sky estimates multiple sound sourcepositions by integrating sound source localization and data association,16,16,GSVD MUSIC (HARK implementation),no,Not specified,,"Distancing of the microphones from the drone rotors, Wind-damping mufflers",,"A person shouting, Whistle","Human speech, Whistle",Multiple,10 mts,,Around,Other,Cylindrical,"0,4",2,Azimuth and Elevation,,5 mts,enRoute PG-560,very small,multirotor,On a remote server,Real-time on a remote server,"- GHDSS is used to separate sounds from a wave file transferred from the drone to the ground station via 2.4 GHz Wireless LAN.
+- The 16 mic array is captured by the on-board sound processing unit RASP-ZX and transmitted to the ground station.
+- Since rotor noise increases during takeoff and landing, localization is set to be perfomed only at the altitude of 3.5m or more."," The flight paths were prescribed. Automatic flight path planning is an important and interesting future work.
+ Two simultaneous sound sources tested: speaker with human voice and human whistling.  Handle azimuth and elevation up to 3 meters away",not mentioned,,"@article{wakabayashi2020drone,
+  title={Drone audition listening from the sky estimates multiple sound source positions by integrating sound source localization and data association},
+  author={Wakabayashi, Mizuho and Okuno, Hiroshi G and Kumon, Makoto},
+  journal={Advanced Robotics},
+  volume={34},
+  number={11},
+  pages={744--755},
+  year={2020},
+  publisher={Taylor \& Francis}
+}",\cite{wakabayashi2020drone},Jahir Rodriguez
+An Acoustic Source Localization Method Using a Drone-Mounted PhasedMicrophone Array,32 microphones.,32,Delay and sum beamforming (page 3),no,25.6 kHz (8),25.6,"Distancing of the microphones from the drone rotors, Spectral filtering","Spectral Subtraction(3,15)",Other,Other,Single,The distance of the firecrackers range from 25.3 meters to 151.5 meters.(Page3),64dB(Page8),Below,2D Radial,2D Radial,,,,,150m(9),Not mentioned (inferred to be DJI Matrice 600),small,multirotor,Simulation,Offline,The DOA is executed by the drone and it arrives to the sources of the sounds that was recorded and collected,"""The acoustic sources used for the experiment were commercial firecracker. This signal was collected separately without a drone and measured at a distance of about 20 m away from the location of the firecracker near the center of the drone.""",Not mentioned,Real time update to the drone's position at 30Hz on the data processing board with the signals from the microphone.(Page 6),"@article{go2021acoustic,
+  title={An acoustic source localization method using a drone-mounted phased microphone array},
+  author={Go, Yeong-Ju and Choi, Jong-Soo},
+  journal={Drones},
+  volume={5},
+  number={3},
+  pages={75},
+  year={2021},
+  publisher={MDPI}
+}",\cite{go2021acoustic},Abishek
+Deep-Learning-Assisted Sound Source Localization From a Flying Drone,8( Page 2 figure a),8,"two baseline approaches, SRP-PHAT and TFS, and six DNN-based approaches: SRP-DNN0, SRP-DNN1, SRP-DNN2, TFS-DNN0, TFS-DNN1, and TFS-DNN2. Here, DNN1 and DNN2 are SMoLNet and FC ( Page 1)",filtering,8kHz( downsampled from 44.1kHz and 44.8kHz depending on the paper that the dataset was taken from).,8,"Distancing of the microphones from the drone rotors, Other, Spectral filtering",Single channel Deep neural network for ego-noise supression.(Page2),"A person shouting, Other","Human speech, Other",Single,"AS paper: , AVQ: 2-6.4m, DREGON: 1.2-2.4m","taken from the papers where the data is sourced: -30 to 5 DB for AS signal[22], <-20db on a median for the second dataset of AVQ signal[29[, -20 to 30 db for DREGON","Above, Below",2D Radial,2D Radial,,,,,"AS: 1.8m, AVQ=1.8m,","3DR IRIS quadcopter drone(microphones placed above), MikroKopter drone(microphones placed below)",Used data from other papers,Used data from other papers,Simulation,Simulation,"Uses datasets from multiple sources. For AS: DOA calculations are done locally, SRP-PHAT algorithm for DOA calculations for AVQ, DREGON uses MATLAB toolbox named Multi-Channel BSS Locate (mBSSL)","No data collection was done in the paper, and other datasets were utilised. Does not provide direct links to the used datasets.",DREGON: http://dregon.inria.fr/datasets/dregon/,,"@article{wang2022deep,
+  title={Deep-learning-assisted sound source localization from a flying drone},
+  author={Wang, Lin and Cavallaro, Andrea},
+  journal={IEEE Sensors Journal},
+  volume={22},
+  number={21},
+  pages={20828--20838},
+  year={2022},
+  publisher={IEEE}
+}",\cite{wang2022deep},Abishek
+Placement Planning for Sound Source Tracking in Active Drone Audition,16 (Page 10),16,"Triangulation based tracking methods(Potamitis04,Yamada20), particle filtering(Lauzon17), and MUSIC(PAFIM). (Page 11)",no,16kHz ( Page 10),16,"Other, Spectral filtering",Placing microphone arrays close to sound sources to maintain high SNR(Page 7),"Other, Other drones",Drones,Single,from 0 to 22 meters as the sound source is moving in a circle in a 11m radius which produces a 1kHz sine wave.,-20dB (Page 10),Around,3D Sphere,3D Sphere,,,,,6.5 meters(Page 10),It is completely done in a simulation.,Simulation,Simulation,Simulation,Simulation,Innovative approach to active sound source tracking using mobile drones. Multiple microphone array configurations are evaluated.,All work was done purely in simulation and it is yet to be carried out locally. Tracking results were confused when sound sources were close ot each other. Real life factors such as wind and self localisation error have not been adressed.,Not mentioned,,"@article{yamada2023placement,
+  title={Placement Planning for Sound Source Tracking in Active Drone Audition},
+  author={Yamada, T. and Itoyama, K. and Nishida, K. and Nakadai, K.},
+  journal={Drones},
+  volume={7},
+  number={405},
+  year={2023},
+  pages={1--21},
+  doi={10.3390/drones7030405}
+}",\cite{yamada2023placement},Abishek
+A 2-D Acoustic Source Localization System for Drones in Search andRescue Missions,4,4,TDOA in conjunction with multilateration and Kalman ﬁlter.,no,50 KHz,50,Spectral filtering,,Whistle,Whistle,Single,5 to 30 mts,Above 3 dB,Below,2D Rectangle,2D Rectangle,,,,,2 to 3 mts.,Not specified,Not specified,Not specified,Locally,Real-time locally,- They opted to use microphones with auto-gain which amplify the source’s sound when it is far-ﬁeld and attenuate the source’s sound when it is near-ﬁeld. Electret microphones with MAX9814 automatic gain controlled (ACG) ampliﬁers which provide a gain of over 20 dB,"- The source location is estimated in terms of an azimuth and distance estimation.
+- Aspect to consider is how the drone can be semi-automated in order to alleviate some of the pressure on the operators",Not mentioned,,"@article{sibanyoni20182,
+  title={A 2-D acoustic source localization system for drones in search and rescue missions},
+  author={Sibanyoni, Sibusiso V and Ramotsoela, Daniel T and Silva, Bruno J and Hancke, Gerhard P},
+  journal={IEEE Sensors Journal},
+  volume={19},
+  number={1},
+  pages={332--341},
+  year={2018},
+  publisher={IEEE}
+}",\cite{sibanyoni20182},Jahir Rodríguez
+DOANet: a deep dilated convolutional neural network approach for searchand rescue with drone-embedded sound source localization,8,8,"DNM + SCHC, DS + SCHC, DSW + SCHC, GCC-NONLIN + SCHC, GCC-PATH + SCHC, MVDR + SCHC, MVDRW + SCHC.
+DOANet (Proposed) One-dimensional dilated CNN",Localization,44.1 KHz,44.1,Spectral filtering,,A person shouting,Human speech,Single,Not specified,Not specified,Below,Other,Cubic. Dregon,,,,,Not specified,Not specified,Not specified,Not specified,Simulation,Offline,"- DOANet does not require any hand-crafted audio features or ego-noise reduction.
+- tested in static and in-flight UAV conditions
+- They use pyroomacoustics to create synthetic data","- DOANet is composed of two networks which are almost identical, each taking on the task of predicting the azimuth and elevation angles independently
+- Do not detect distance, only location angles in azimuth and elevation
+- Not used in real time localization.",DREGON,,"@article{qayyum2020doanet,
+  title={DOANet: a deep dilated convolutional neural network approach for search and rescue with drone-embedded sound source localization},
+  author={Qayyum, Alif Bin Abdul and Hassan, KM Naimul and Anika, Adrita and Shadiq, Md Farhan and Rahman, Md Mushfiqur and Islam, Md Tariqul and Imran, Sheikh Asif and Hossain, Shahruk and Haque, Mohammad Ariful},
+  journal={EURASIP Journal on Audio, Speech, and Music Processing},
+  volume={2020},
+  pages={1--18},
+  year={2020},
+  publisher={Springer}
+}",\cite{qayyum2020doanet},Jahir Rodriguez
+Multiple Sound Source Position Estimation by Drone Audition Based on Data Association Between Sound Source Localization and Identification,16,16,"GSVD - MUSIC for SSL
+HARK (GHDSS) for SSS. Sound Source Separation
+GNN-c for tracking multiple sources.
+SVM for SSI. Sound source identification. (Proposed)",no,16 KHz,16,Distancing of the microphones from the drone rotors,,"A person shouting, Whistle","Human speech, Whistle",Both,18 m.,-15 dB.,Around,Other,Cylindrical,"0,4",2,Azimuth and Elevation,,Not specified.,ZION-PG560,small (inferred),multirotor,On a remote server,Real-time on a remote server,"- They introduce a management method for stable sound-source tracking, using thresholds and Kalman´s filtering: valid, active and dormant.
+- The proposed method comparing to the SSL without classiﬁcation, the proposed method took longer time to ﬁnd the source (male voice), but the proposed method provided accurate and stable estimates of both two sources (voice and whistle).  
+- The proposed association method with classiﬁcation made the localization robust even with a liimited number of observations available under noisy conditions.",- The sensor readings from the drone and acoustic signals were not perfectly synchronized because of the limitation of the computational resources.,"AudioSet. https://research.google.com/audioset/index.html. Diferent sound sources used in the paper, 8 classes. male voice, female voice, emergency whistle, airplane, car horn, engine, siren, and rotor noise.",,"@article{wakabayashi2020multiple,
+  title={Multiple sound source position estimation by drone audition based on data association between sound source localization and identification},
+  author={Wakabayashi, Mizuho and Okuno, Hiroshi G and Kumon, Makoto},
+  journal={IEEE Robotics and Automation Letters},
+  volume={5},
+  number={2},
+  pages={782--789},
+  year={2020},
+  publisher={IEEE}
+}",\cite{wakabayashi2020multiple},Jahir Rodriguez
+Design and Assessment of Sound Source Localization System with a UAV-Embedded Microphone Array,16 (offline) and 8 (online),8,"iGEVD-MUSIC (offline)
+iGSVD-MUSIC (online: real-time)",no,16 kHz,16,"Distancing of the microphones from the drone rotors, Spectral filtering, Wind-damping mufflers",,"A person shouting, Animal sounds, Motor vehicles, Other, Whistle","Human speech, Animal sounds, Motor vehicles",Both,"11m (offline)
+2m (online)",Unclear,"Around, Below",2D Radial,2D Radial,,,,,"- Offline: 5m
+- Online: 1.5m","Pelican (AscTec) and Zion (enRoute) for offline recordings
+Bebop Drone for online recording","very small, small",multirotor,On a remote server,Real-time on a remote server,"- 21 different sound sources and volume levels used in the experiments
+- Drones are testes hovering and flying outside
+- Offline and online experiments","- Focused on ground-based sources, although would probably work for localization of other drones
+- Elevation has a larger error, possibly due to usage of 2D circular array
+-",Not mentioned,"- Online test is done with people speaking from 2m distance in a noisy outdoors environment, but with a constant rotor speed.","@article{hoshiba2017design,
+  title={Design and assessment of sound source localization system with a UAV-embedded microphone array},
+  author={Hoshiba, Kotaro and Sugiyama, Osamu and Nagamine, Akihide and Kojima, Ryosuke and Kumon, Makoto and Nakadai, Kazuhiro},
+  journal={Journal of Robotics and Mechatronics},
+  volume={29},
+  number={1},
+  pages={154--167},
+  year={2017},
+  publisher={Fuji Technology Press Ltd.}
+}",\cite{hoshiba2017design},Sergio
+Design of UAV-Embedded Microphone Array System for Sound SourceLocalization in Outdoor Environments,12(page3),12,"MUSIC(Page 9), SEVD-MUSIC, IGSVD-MUSIC(page 10), angle-limited SEVD-MUSIC(page 14)",no,16kHz(Page 9),16,Other,Use of correlation matrix estimation to improve sound source localisation(Page 15),Whistle,Whistle,Single,10-100meters.(Page13),"-20, -10, 0, 10 and 20 dB(Page 10)","Around, One one side",3D Sphere,3D Sphere,,,,,unclear,Not specified,small (inferred),multirotor,On a remote server,Real-time on a remote server,"Useful design of a WATER RESISTIVE array( could be useful for underwater experimentation with a better design)
+Sucessful demonstration of SSL outdoors
+Evaluation of multiple algorithms and their performances have been covered(page 13)
+Evaluation of multiple designs(page 3)","Limited discussion on the impact of enviromental noise, despite it having been mentioned as their expriment running in a multiple sound source enviroment due to enviromental noise.
+The UAV was actually not floating when the data was being taken. This should be worked and improved upon",Not mentioned,This paper focused on sigular SSL but acknowledged the multiple sound sources that were present there during the experiment.,"@article{hoshiba2017bdesign,
+  title={Design of UAV-embedded microphone array system for sound source localization in outdoor environments},
+  author={Hoshiba, Kotaro and Washizaki, Kai and Wakabayashi, Mizuho and Ishiki, Takahiro and Kumon, Makoto and Bando, Yoshiaki and Gabriel, Daniel and Nakadai, Kazuhiro and Okuno, Hiroshi G},
+  journal={Sensors},
+  volume={17},
+  number={11},
+  pages={2535},
+  year={2017},
+  publisher={MDPI}
+}",\cite{hoshiba2017bdesign},Abishek
+,,,,,,,,,,,,,,,3D Hexagonal,3D Hexagonal,,,,,,,,,,,,,,,,,
+Outdoor evaluation of sound source localization for drone groups using microphone arrays,"16,16,16(Page 4)",16,"MS-GSFT(Multiple Triangulation and Gaussian Sum filter tracking)(Page1), Particle filter-based method referenced as method [11](page 4), and Kalman filter-based method referenced as method[14](page4)",no,16kHz(Page4),16,Distancing of the microphones from the drone rotors,Supression of the impact of outlying triangulation points caused by drone noise.,Whistle,Whistle,Single,up to 50 meters away(page2),n/a,On one side,3D Sphere,3D Sphere,,,,,10 meters.(page4),DJI inspire 2(Page4),small,multirotor,Simulation,Simulation,"The use of MT-GSFT method effectively filters out outlying triangulation points, improving localisation accuracy. Their methods of improving accuracy and isolating the microphones can be adopted and even improved",The performances of the mathematical algorithm and computational methods are only compared to drones that are not moving and the three drones dont actually reach the target. Only their estimation after receiving the sound input is taken into account.,Not mentioned,,"@inproceedings{Yamada2020,
+  author = {Taiki Yamada and Katsutoshi Itoyama and Kenji Nishida and Kazuhiro Nakadai},
+  title = {Outdoor evaluation of sound source localization for drone groups using microphone arrays},
+  booktitle = {Proceedings of the 2020 IEEE/SICE International Symposium on System Integration},
+  year = {2020},
+  pages = {1--6},
+  address = {Honolulu, Hawaii, USA},
+}",\cite{Yamada2020},Abishek Soti
+DroneEARS: Robust Acoustic Source Localization with Aerial Drones,2,2,"iGEVD-MUSIC
+Fixed beamforming
+Mobility-aided beamformig. DroneEARS.  (Proposed)",no,Not specified,,Other,Not specified.,Other,Other,Single,"Not specified, the space of probes is 3 to 6 m",-25 to 25 dB,Around,2D Linear,2D Linear,,,,,Not specified,AR.Drone 2.0 quadcopter,micro,multirotor,On a remote server,Offline,"- A major limitation of most competing techniques iGEVD-MUSIC is that they assume to have a good knowledge of the noise correlation matrix. While it can be reliably estimated in static operating conditions, the additional mobility factor makes it very challenging to dynamically derive it.
+- DroneEARS estimates the location of the sound source with a mean error of 17 cm, and standard deviation of 26 cm.","- They make the following assumptions in the proposed SSL.
+• Assumption 1 : The number of sound sources are less than the number of elements in the sensor array, 1 .
+• Assumption 2 : The (sound sources) are stationary, and they continuously transmit for the entire measurement duration.
+• Assumption 3 : The precise location of the MAV is known at every measurement point.
+
+- The received signals of very low SNR (-25 dB) need more number of mobile measurements (20) to achieve an average measure of localization accuracy.",Not mentioned,"It is a very similar paper with: Aerial Drones with Location-Sensitive Ears. (Same authors)
+- the positions of microphones below the MAV (Drone) receive more noise than positions that are above or beside it due to the downward ﬂow of wind from the propellers.
+- is not clear in the paper but it seems the study was only simulated.","@inproceedings{misra2018droneears,
+  title={Droneears: Robust acoustic source localization with aerial drones},
+  author={Misra, Prasant and Kumar, A Anil and Mohapatra, Pragyan and Balamuralidhar, P},
+  booktitle={2018 IEEE International Conference on Robotics and Automation (ICRA)},
+  pages={80--85},
+  year={2018},
+  organization={IEEE}
+}",\cite{misra2018droneears},Jahir Rodríguez
+Beamforming-Based Acoustic Source Localization and Enhancement forMultirotor UAVs,4 microphones(page3),4,"Diagonal unloading (DU) Beamforming
+MUSIC",no,16kHz(Page3),16,Spectral filtering,A minimum variance distortionless response (MVDR) beamformer coupled with a Wiener postfiltering scheme for ego-noise mitigation(page 1),"A person shouting, Whistle","Human speech, Whistle",Single,1 meters(Page3),"-3db,-13dB, and -23dB",Above,2D Linear,2D Linear,,,,,"The drone does not hover, but is palced on a fixed stand at an unstated height.",Parrot bebop 1 quadcopter,very small,multirotor,On a remote server,Simulation,"They use small and low cost devices, and tackle the problem of auditory processing with a differenct apporach. Their usage of controlled angles gives them more reliable data.",The drone is not hovering while taking the readings.,Not mentioned,Good for analysing different angle of arrivals,"@article{Salvati2023,
+  author = {Daniele Salvati and Carlo Drioli and Giovanni Ferrin and Gian Luca Foresti},
+  title = {Beamforming-Based Acoustic Source Localization and Enhancement for Multirotor UAVs},
+  journal = {Department of Mathematics, Computer Science and Physics, University of Udine, Italy},
+  year = {2023},
+  note = {Email: \{daniele.salvati, carlo.drioli, giovanni.ferrin, gianluca.foresti\}@uniud.it}
+}",\cite{Salvati2023},Abishek Soti
+Sound Source Tracking Using Integrated Direction Likelihood for Droneswith Microphone Arrays,16 (on each of two drones),16,PAFIM( Particle Filtering with Integrated Music)(Page2),no,16kHz(page4),16,Other,Pre recorded drone noise is used with managed SNR.(page4),A person shouting,Human speech,Multiple,10m-60m. Drone 1 to speaker 1: 41.23m Drone 1 to speaker2: 11.14m-30m. Drone 2 to speaker 1: 30m. Drone 2 to speaker 2: 20.16m-40.16m,-30dB,Simulation,3D Sphere,3D Sphere,,,,,The Experiment was conducted on a simulation,The Experiment was conducted on a simulation,The Experiment was conducted on a simulation,The Experiment was conducted on a simulation,Simulation,Simulation,Multiple sound sources are analysed along with a moving sound source and one stationary sound source. We can also conduct simulations using an online dataset to assess simple set-ups as well.,The experiment is conducted fully in simulation.,Not mentioned,Important paper: uses  PAFIM must look further on the scenarios where this will be helpful.,"@inproceedings{yamada2021sound,
+  title={Sound Source Tracking Using Integrated Direction Likelihood for Drones with Microphone Arrays},
+  author={Yamada, Taiki and Itoyama, Katsutoshi and Nishida, Kenji and Nakadai, Kazuhiro},
+  booktitle={2021 IEEE/SICE International Symposium on System Integration (SII)},
+  pages={394--399},
+  year={2021},
+  organization={IEEE}
+}",\cite{yamada2021sound},Abishek Soti
+Assessment of MUSIC-Based Noise-Robust Sound Source Localization withActive Frequency Range Filtering,12 microphones(page5),12,"SEVD-MUSIC, iGSVD-MUSIC(Page3), AFRF-MUSIC(page4)",no,16kHz(page5),16,"Distancing of the microphones from the drone rotors, Spectral filtering",SEVD-MUSIC enhanes noise robustness.(Page3),"A person shouting, Whistle","Human speech, Whistle",Single,10 meters(page5),-20dBto 20dB.,On one side,3D Sphere,3D Sphere,,,,,n/a,MS-06LA,small (inferred),multirotor,Simulation,Simulation,They have used AFRF-MUSIC filtering techniques which is very beneficial to use at it utilises the strong aspects of the other two MUSIC algorithms.,"DOA, signal filtering performed on a simulation, poor low snr performance, singular array configuration.",Not mentioned,Important: This has the microphones on one side and the counter weights on the other two.,"@article{hoshiba2018assessment,
+  title={Assessment of MUSIC-Based Noise-Robust Sound Source Localization with Active Frequency Range Filtering},
+  author={Hoshiba, Kotaro and others},
+  journal={Journal of Robotics and Mechatronics},
+  volume={30},
+  number={3},
+  pages={426--433},
+  year={2018},
+  publisher={Fuji Technology Press}
+}",\cite{hoshiba2018assessment},Abishek Soti
+Convolutional Neural Network- based Direction-of-Arrival Estimationusing Stereo Microphones for Drone,2 directional cardiod.,2,"CNN (proposed). Power levelbased features: power level ratio (PLR), power level difference (PLD), and power level summation (PLS). Estimates de azimuth angle DOA.",Localization,Not specified,,Other,Parametric multi-channel Wiener filter (PMWF),A person shouting,Human speech,Single,5 to 20m,Not specified,Below,2D Linear,2D Linear,,,,,Not specified,DJI MAVIC PRO,very small,multirotor,On a remote server,Offline,"- To cope with extremely low SNR, noise suppression is performed using PMWF, which can effectively reduce the spatially coherent as well as incoherent noise.","- Supervised CNN Model predicts DOA for ten directions in 20° increments from 0° to 180°at the last layer.
+- They recorded seperately noises (ego-noise) and speeches (in specific angles and distances: 5m,10m,20m.). After that, they mix the noise and the speech to create the dataset.
+- Some utterances were recorded by 20-30s male and female in the semi-anechoic room including rescue request statements such as “Help me”",Not mentioned,Training dataset was recorded separately and artificially mixed,"@inproceedings{choi2020convolutional,
+  title={Convolutional neural network-based direction-of-arrival estimation using stereo microphones for drone},
+  author={Choi, Jeonghwan and Chang, Joon-Hyuk},
+  booktitle={2020 International Conference on Electronics, Information, and Communication (ICEIC)},
+  pages={1--5},
+  year={2020},
+  organization={IEEE}
+}",\cite{choi2020convolutional},Jahir Rodríguez
+An Embedded Multichannel Sound Acquisition System for Drone Audition,8(Page 1),8,Time Frequency Spatial filtering(page2),no,8kHz(Page5),8,"Distancing of the microphones from the drone rotors, Spectral filtering","Alteration of placements of Array, location of the target sound, input SNR, etc(Page 2).",A person shouting,Human speech,Single,up to 2 meters(page 5),-40 to 0,"Above, On one side",2D Radial,2D Radial,,,,,1.7m(page 5),Matrice 100(Page 4),small,multirotor,Locally,Simulation,"Important: This paper analyses different setups for microhpone arrays, different placements of the microphones in relation to the drones and also different DOAs. Experimental validation for using WIFI to record and send data to a remote server.",Performance declines at both low and high SNR without providing much reasoning.,Not mentioned,,"@article{Clayton2023,
+  author = {Michael Clayton and Lin Wang and others},
+  title = {An Embedded Multichannel Sound Acquisition System for Drone Audition},
+  journal = {IEEE Sensors Journal},
+  volume = {23},
+  number = {12},
+  pages = {13378-13388},
+  year = {2023},
+  doi = {10.1109/JSEN.2023.3273330}
+}",\cite{Clayton2023},Abishek Soti
+TIME-FREQUENCY PROCESSING FOR SOUND SOURCE LOCALIZATION FROM A MICROAERIAL VEHICLE,8(Page2),8,"MUSIC, SRP-PHAT, GEVD-MUSIC,SP(Spatial processing), HiSP(High Spacial PRocessing)(Page1,4), histogram based method to localise sound by constructing a histogram based on localisation results(Page 4)",no,8kHz(page3),8,Spectral filtering,n/a,A person shouting,Human speech,Single,"10 meters in simulated scenario and 3 meters in the real-recorded scenario(Page4,5)",SNR ranges from -25 to 5dB.(Page4-5),Above,2D Radial,2D Radial,,,,,"It is only mentioned that it hovers, but the height isnt mentioned ( Page 2)",3DR IRIS Quadcopter,very small,multirotor,Simulation,Simulation,"Important: High performance in low SNR scenarios, Combines spatial filtering with Non-gaussianity Measures for effective SSL.","Talks about single sound source localisation and has not tried for multiple ssl,",Not mentioned,Possible research on the general application of this papers methodologies to a multiple ssl research project.,"@inproceedings{wang2017time,
+  title={Time-frequency processing for sound source localization from a micro aerial vehicle},
+  author={Wang, Lin and Cavallaro, Andrea},
+  booktitle={ICASSP 2017-2017 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  pages={496-500},
+  year={2017},
+  organization={IEEE}
+}",\cite{wang2017time},Abishek Soti
+Design and Implementation of Real-Time Visualization of Sound Source Positions by Drone Audition,16 microphones(Page 2),16,"MUSIC, GEVD MUSIC",no,not specified,,Distancing of the microphones from the drone rotors,Masking out stationary ego-noise in a fixed direction,"A person shouting, Whistle","Human speech, Whistle",Multiple,not mentioned,not reported.,"Around, On one side",,,,,,,n/a,n/a,small (inferred),multirotor,Locally,Real-time on a remote server,Important: Initial filtering is performed on the edge computing system (RASP-MX) onboard the drone. There is an emphasis on user interfacfe design which is lacking in all other papers.,There is a sheer lack of experimental details and it only uses one specific configuration,Not mentioned,n/a,"@inproceedings{Wakabayashi2020DroneAudition,
+  title={Design and Implementation of Real-Time Visualization of Sound Source Positions by Drone Audition},
+  author={Mizuho Wakabayashi and Kai Washizaka and Kotaro Hoshiba and Kazuhiro Nakadai and Hiroshi G. Okuno and Makoto Kumon},
+  booktitle={Proceedings of the 2020 IEEE/SICE International Symposium on System Integration},
+  year={2020},
+  pages={1-7},
+  doi={10.1109/SII.2020.8700401}
+}",\cite{Wakabayashi2020DroneAudition},Abishek Soti
+A Blind Source Separation Framework for Ego-Noise Reduction on Multi-Rotor Drones,8 microphones( page 7),8,"Blind Source Separation (BSS)
+Time-Frequency Spatial Filtering (TFS)
+A combination of TFS and BSS (TFBSS)
+Post-filtering (Post)
+Fixed Delay-and-Sum Beamformer (FBF)
+Adaptive Beamformer (ABF) (page 6)",no,the signals are sampled at 44.1kHz which is then downsampled to 8kHz for processing(page 7),8,Spectral filtering,"Blind source seperation, Time frequency spatial filter(TFS)(6)",A person shouting,Human speech,Single,"Theres three setups where the speaker is 3,4 meters away and in the outdoor settings it is 6 meters away.(page 7)",-25db to -5db range and -12.8db for one specific signal(page13),Above,2D Radial,2D Radial,,,,,1.8 meters(page7),3DR IRIS quadcopter,very small,multirotor,Simulation,Simulation,The specific mounting position of the array helps in dealing with sound sources in 3D.Combines TFS and BSS for effective ego-noise reduction. Demonstrates robustness to DOA estimation errors. Allows continuous processing of long signals in a blockwise manner. (Page 13),"The proposed method assumes a static acoustic environment, which may not hold in dynamic scenarios.",Self collected dataset which has not been mentioned and DREGON.,,"@article{Wang2020,
+  author = {L. Wang and A. Cavallaro},
+  title = {A Blind Source Separation Framework for Ego-Noise Reduction on Multi-Rotor Drones},
+  journal = {IEEE/ACM Transactions on Audio, Speech, and Language Processing},
+  volume = {28},
+  pages = {1--12},
+  year = {2020},
+  doi = {10.1109/TASLP.2020.3015027}",\cite{Wang2020},Abishek Soti
+Acoustic DOA estimation using space alternating sparse Bayesian learning,21 array elements(Page9),21,"Conventional Beamforming (CBF)
+SAVE-MSBL
+Proposed OGSA-MSBL
+Variational Bayesian Learning (VBL)
+Off-Grid Sparse Bayesian Inference (OGSBI)
+Efficient Sparse Bayesian Learning (ESBL)
+Compressive Bayesian Compressive Sensing (C-BCS) (Page9)",no,Data taken from simulation and LOCATA dataset,,Other,n/a,Other,Other,Multiple,n/a,10 dB,,2D Linear,2D Linear,,,,,n/a,n/a,Simulation,Simulation,Simulation,Simulation,"The OGSA-MSBL approach demonstrates superior DOA and source amplitude estimation accuracy compared to traditional methods(page1), lower computational load(page8), works uniformly over a range of SNR(page7)",Limited information of experimental conditions( experiment was conducted in simulation). Missing research in low SNR conditions(page7),"LOCATA dataset (third party, no drones)",n/a,"@article{Guo2023,
+  author = {Qijia Guo and Zhinan Xin and Tian Zhou},
+  title = {Off-Grid Space Alternating Sparse Bayesian Learning},
+  journal = {IEEE Transactions on Instrumentation and Measurement},
+  year = {2023},
+  volume = {72},
+  pages = {1002310},
+  doi = {10.1109/TIM.2023.3243677}
+}",\cite{Guo2023},Abishek Soti
+Noise power spectral density scaled SNR response estimation withrestricted range search for sound source localisation using unmannedaerial vehicles,8 microphones(page11),8,"GCC-PHAT, SRP-PHAT, MVDR, DS, DNM, and the proposed method using noise power spectral density (PSD) scaled SNR response",Filtering,44.1 kHz,44.1,Spectral filtering,Denoising autoencoder (DAE) and noise PSD-based scaling,"A person shouting, White noise or similar","Human speech, White noise",Single,not mentioned (used DREGON dataset),Not reported,Below,Other,Cubic. Dregon,,,Azimuth and Elevation,,"none, the dataset they used was from DREGON.",n/a,Simulation,Simulation,Simulation,Simulation,Comprehensive evaluation across multiple tasks and scenarios.,uses DREGON data set; does not do any actual data collection and SNR adjustment in real life.,DREGON.,Only applies an SNR mitigation method to a DREGON dataset.,"@article{Yen2020,
+  author = {B. Yen and Y. Hioka},
+  title = {Noise power spectral density scaled SNR response estimation with restricted peak search for UAV-based sound source localization},
+  journal = {EURASIP Journal on Audio, Speech, and Music Processing},
+  year = {2020},
+  volume = {2020},
+  pages = {13},
+  doi = {10.1186/s13636-020-00173-5}
+}",\cite{Yen2020},Abishek Soti
+Belief-Driven Control Policy of a Drone with Microphones for Multiple Sound Source Search,16(page2),16,MUSIC(page2),no,not informed,,Distancing of the microphones from the drone rotors,n/a,Other (chirp signal),Chirp Signal,Multiple,about 20m,Not reported,On one side,3D Sphere,3D Sphere,,,,,Not specified,Hex-Rotor Helicopter,small (inferred),multirotor,Locally,Real-time on a remote server,Important: We could also do multiple estimations every 5-10 seconds to better calculated where the sound source is located if the sound source has constant sound output.,It is based off of their past works and does not provide new insight besides an approach that they tried with their already existing dataset.,Not mentioned,The previous papers realting to this experiment alongside this provide a good full picture of the researchers process. We could also breakdown our research topic into multiple papers similarily.,"@article{yamada2023belief,
+  title={Belief-Driven Control Policy of a Drone with Microphones for Multiple Sound Source Search},
+  author={Yamada, Kenshiro and Kumon, Makoto and Furukawa, Tomonari},
+  journal={IEEE Transactions on Robotics},
+  year={2023},
+  pages={1--7},
+  volume={XX},
+  number={YY},
+  doi={10.1109/TRO.2023.XXXXXX}
+}",\cite{yamada2023belief},Abishek Soti
+Feasibility of Discriminating UAV Propellers Noise from Distress Signals to Locate People in Enclosed Environments Using MEMS Microphone Arrays,64 mems microphones(page 5),64,Wideband beamforming algorithms(page5),no,50kHz(page5),50,"Distancing of the microphones from the drone rotors, Spectral filtering",Mechanical and acoustic isolation of the MEMS array from the drone structure(page13),"A person shouting, Other drones","Human speech, Drones",Single,45 cm to 160cm(page7),-15 dB to 15 dB(Page 13),One one side,2D Rectangle,2D Rectangle,,,,,n/a,Autel X-Star(Page4),very small,multirotor,On a remote server,Real-time on a remote server,n/a,Microphone array was to big to integrate into the drones.,Not mentioned,n/a,"@article{izquierdo2020feasibility,
+  title={Feasibility of Discriminating UAV Propellers Noise from Distress Signals to Locate People in Enclosed Environments Using MEMS Microphone Arrays},
+  author={Izquierdo, Alberto and del Val, Lara and Villacorta, Juan J. and Zhen, Weikun and Scherer, Sebastian and Fang, Zheng},
+  journal={Sensors},
+  volume={20},
+  number={597},
+  year={2020},
+  pages={1--16},
+  publisher={MDPI},
+  doi={10.3390/s20020597}
+}",\cite{izquierdo2020feasibility},Abishek soti
+On the application of SEGAN for the attenuation of the ego-noise in the speech sound source localization problem,"8 microphone array embedded in the UAV( Page 1,2)",8,"Sembalance based TDOA algorithm, LogMMSE(page3,2)",Filtering,"16kHz, from 44.1kHz",16,Spectral filtering,"SEGAN, LogMMSE",A person shouting,Human speech,Single,not mentioned,24dB to -21dB(Page 3),Below,Other,Cubic. Dregon,,,Azimuth and elevation,,n/a.,n/a,Dregon dataset,Dregon dataset,Simulation,Simulation,Focuses on a possible filtering technique we could use.,"Lack of specifics, no mention of DOA.",n/a,"Not concerned with DOA, only focuses on using a combination of SEGAN and logMMSE","@inproceedings{spadini2019application,
+  title={On the application of SEGAN for the attenuation of the ego-noise in the speech sound source localization problem},
+  author={Spadini, Tito and Aldeia, Guilherme Seidyo Imai and Barreto, Guilherme and Alves, Kaleb and Ferreira, Henrique and Suyama, Ricardo and Nose-Filho, Kenji},
+  booktitle={4th Workshop on Communication Networks and Power Systems (WCNPS 2019)},
+  year={2019},
+  organization={Universidade Federal do ABC}
+}",\cite{spadini2019application},Abishek Soti
+Development of Microphone-Array-Embedded UAV for Search and Rescue Task,12 microphones(page3),12,"SEVD-MUSIC, iGSVC-MUSIC",no,not specified,,Distancing of the microphones from the drone rotors,Online Robust Principal Component Analysis (ORPCA)(Page1),"A person shouting, Whistle","Human speech, Whistle",Single,not mentioned,20dB to -20dB(Page5),On one side,3D Sphere,3D Sphere,,,,,Not mentioned,Autonomous Control Systems Laboratory Ltd. (ACSL) Mini Surveyor (MS-06LA) (Page2),small,multirotor,On a remote server,Real-time on a remote server,"Noise mitigation by distancing the microphone array and insulating them with materials to protect against nosie.
+Their orientation lets them have drone noise only come from one direction instead of being omnidirectional.
+Their research on latency is unique.",They do not report hover height,n/a,"There are some papers that distance the microphone array this way, we could also try the configuration for our setup.","@inproceedings{Nakadai2023,
+  author = {Kazuhiro Nakadai and Makoto Kumon and Hiroshi G. Okuno and Kotaro Hoshiba and Mizuho Wakabayashi and Kai Washizaki and Takahiro Ishiki and Daniel Gabriel and Yoshiaki Bando and Takayuki Morito and Ryosuke Kojima and Osamu Sugiyama},
+  title = {Development of Microphone-Array-Embedded UAV for Search and Rescue Task},
+  booktitle = {Proceedings of the IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
+  year = {2023},
+  pages = {1--6},
+  publisher = {IEEE}
+}",\cite{Nakadai2023},Abishek Soti
+SPHERICAL HARMONIC DIAGONAL UNLOADING BEAMFORMING WITH EGO-NOISE REDUCTION FOR DOA ESTIMATION FROM AUTONOMOUS SYSTEMS,19 microphones(Page4),19,"1) SH-DU-FSPT: spherical harmonic (SH) domain using a frequency smoothing power transform (FSPT) Diagonal Unloading(DU) (page4)
+2) Proposed EGO noise reduction",no,48kHz(page4),48,"Distancing of the microphones from the drone rotors, Other, Spectral filtering",Ego-noise covariance matrix estimation and diagonal unloading procedure,Other drones,Drones,Single,Not given,-25 to 0 dB,Below,3D Sphere,3D Sphere,,,,,Not specified,Unspecified quadcopter drone,Unspecified,Unspecified,Simulation,Offline,- The approach is claimed to be more computationally efficient that MUSIC,- Approach requires collection of ego-noise data without the signal for 30s,No information provided,- Microphones a placed 30cm below the drone,"@article{Salvati2021,
+  author = {D. Salvati and C. Drioli and G. L. Foresti},
+  title = {Spherical Harmonic Diagonal Unloading Beamforming with Ego-Noise Reduction for DOA Estimation from Autonomous Systems},
+  journal = {IEEE Transactions on Audio, Speech, and Language Processing},
+  year = {2021},
+  volume = {29},
+  pages = {1-5},
+  doi = {10.1109/TASLP.2021.1234567}
+}",\cite{Salvati2021},Sergio
+A bio-mimetic miniature drone for real-time audio based short-range tracking,2 ultrasonic microphones.,2,Time Difference of Arrival (TDoA) with Cross-Correlation,no,144 KHz,144,Spectral filtering,Only high pass filter to separate ultrasonic frequencies,"Animal sounds, Other",Animal sounds,Single,0.4 to 0.8 m,Not specified,On one side,2D Linear,2D Linear,,,,,Not specified,Crazyflie 2.0,micro,multirotor,Locally,Real-time locally,"- The approach could be generalized to 3D by adding pinnae-like structures on-top of the microphones.
+- Pinnae provide elevation-specific filtering which complete the time of arrival differences and provide 3D information. Real bats such pinnae could be small and light-weight and could thus be carried even by our miniature drone.","- To simplify the analysis and due to the lack of a pinna-like model, they restricted the tracking to two dimensions. (azimuth angle)",Necessary data and code are available on GitHub: https://github.com/roeizig/thesis-project,"- This paper is for sound source localization but works on idenifying ultrasonic sounds sources, like bats.","@article{zigelman2022bio,
+  title={A bio-mimetic miniature drone for real-time audio based short-range tracking},
+  author={Zigelman, Roei and Eitan, Ofri and Mazar, Omer and Weiss, Anthony and Yovel, Yossi},
+  journal={PLoS Computational Biology},
+  volume={18},
+  number={3},
+  pages={e1009936},
+  year={2022},
+  publisher={Public Library of Science San Francisco, CA USA}
+}",\cite{zigelman2022bio},Jahir Rodríguez
+Aerial Drones with Location-Sensitive Ears,2,2,"fixed beamforming (delay and sum)
+adaptive beamforming (MaxNSR)
+iGEVD-MUSIC
+DroneEARS (Proposed)",no,Not specified,,Other,Not specified,A person shouting,Human speech,Single,1 m,25 to -25 dB,Around,2D Linear,2D Linear,,,,,1.5 mts,AR.Drone 2.0 quadcopter,micro,multirotor,On a remote server,Offline,,"- They design the theoretical framework of DroneEARS and validate its working through empirical studies. They are currently working toward integrating it with the drone platform. (it seems the study only a simulation, the distance between source and mics is really short)",Not mentioned,"- Its almost the same paper reviewed DroneEARs, same comments, and limitations.","@article{misra2018aerial,
+  title={Aerial drones with location-sensitive ears},
+  author={Misra, Prasant and Kumar, A Anil and Mohapatra, Pragyan and Balamuralidhar, P},
+  journal={IEEE Communications Magazine},
+  volume={56},
+  number={7},
+  pages={154--160},
+  year={2018},
+  publisher={IEEE}
+}",\cite{misra2018aerial},Jahir Rodríguez
+CNN-Based Processing of Acoustic and Radio Frequency Signals for Speaker Localization from MAVs,4,4,three stage CNN with two stages for processing the RF and one stage for the speech data seperately(Page 4),Localization,n/a(Hz is not even mentioned in the whole paper),,Other,The document focuses on enhancing localization through RF and speech signal fusion.,"A person shouting, Other drones","Human speech, Drones",Single,"2,3, and 4 meters(Page3)",Not specified,Above,2D Linear,2D Linear,,,,,n/a,Parrot Bebop 1,very small,multirotor,On a remote server,Real-time on a remote server,Enhanced sound localisation via the combination of RF and acoustic data. The signal is processed in real time and DOA and direction of source was predicted on the spot.,Experiments were not conducted in fully simulated enviroments.,Not mentioned,n/a,"@article{toma2023cnn,
+  title={CNN-Based Processing of Acoustic and Radio Frequency Signals for Speaker Localization from MAVs},
+  author={Toma, Andrea and Salvati, Daniele and Drioli, Carlo and Foresti, Gian Luca},
+  journal={Department of Mathematics, Computer Science and Physics, University of Udine},
+  year={2023},
+  pages={1--5},
+  publisher={University of Udine}
+}",\cite{toma2023cnn},Abishek Soti
+Effective direction of arrival estimation of gunshot signals from an in-flight unmanned aerial vehicle,4,4,GCC-PHAT,No,not specified,,Distancing of the microphones from the drone rotors,,Gunshots,Gunshots,Single,"25, 50, and 100 meters  (inferred)",-10 (simulation),Around,2D Rectangle,2D Rectangle,,,,,"25, 50, and 100 meters ",DJI Phantom 4,very small,multirotor,Simulation,Offline,Hovering of up to 100m,,Not mentioned,,"@inproceedings{ribeiro2018effective,
+  title={Effective direction of arrival estimation of gunshot signals from an in-flight unmanned aerial vehicle},
+  author={Ribeiro, Juliano GC and Serrenho, Felipe G and Apolin{\'a}rio Jr, Jos{\'e} A and Ramos, Ant{\'o}nio LL},
+  booktitle={Automatic Target Recognition XXVIII},
+  volume={10648},
+  pages={89--99},
+  year={2018},
+  organization={SPIE}
+}
+",\cite{ribeiro2018effective},Sergio
+Chapter 15 - A novel sound source localization method using a global-best guided cuckoo search algorithm for drone-based search and rescue operations,8,8,GCC-PHAT,no,44.1 Khz (pag 3),44.1,Spectral filtering," GCS (Global-Best Guided Cuckoo Search) for ego-noise suppression, Wiener filter",A person shouting,Human speech,Single,DREGON dataset,DREGON dataset,Below,Other,Cubic. Dregon,,,Azimuth and Elevation,,DREGON dataset,DREGON dataset,DREGON dataset,DREGON dataset,Simulation,Simulation,They write out the steps involved in the resaerch process. This is a good paper to read as an introduction to the topic.,The paper does not actually conduct any experiments.,Not mentioned,A large literature review section,"@incollection{Banerjee2023,
+  title={A novel sound source localization method using a global-best guided cuckoo search algorithm for drone-based search and rescue operations},
+  author={Annesya Banerjee and Achal Nilhani and Supriya Dhabal and Palaniandavar Venkateswaran},
+  booktitle={Unmanned Aerial Systems},
+  pages={375--415},
+  year={2023},
+  publisher={Elsevier},
+  address={Amsterdam, Netherlands},
+  chapter={15},
+  doi={10.1016/B978-0-12-820276-0.00022-4}
+}",\cite{Banerjee2023},Abishek Soti
+Sound Source Tracking by Drones with Microphone Arrays,16 channel spherical microhpone array(Page 1),16,"MUSIC, SEVD-MUSIC",no,44.1kHz(page5),44.1,"Distancing of the microphones from the drone rotors, Spectral filtering","Ignoring peaks from drone propellers, Gaussian sum filtering",White noise or similar,White noise,Single, 5 meters (inferred),-24.6dB(Page5),"On multiple sides (more that one array), On one side",3D Sphere,3D Sphere,,,,,n/a,Simulation,Simulation,Simulation,Simulation,Simulation,This setup was shown to work under low SNR.,"There are many undefined parameters, most of the work is conducted theoritically and in simulation.",Not mentioned,n/a,"@inproceedings{Yamada2020,
+  author = {Taiki Yamada and Katsutoshi Itoyama and Kenji Nishida and Kazuhiro Nakadai},
+  title = {Sound Source Tracking by Drones with Microphone Arrays},
+  booktitle = {Proceedings of the 2020 IEEE/SICE International Symposium on System Integration},
+  year = {2020},
+  pages = {796--801},
+  publisher = {IEEE},
+  address = {Honolulu, Hawaii, USA},
+  doi = {10.1109/SII48929.2020.9030660}
+}",\cite{Yamada2020},Abishek
+Outdoor sound source detection using a quadcopter with microphone array,16 MEMS microphones(page4),16,"SEVD-MUSIC, iGEVD-MUSIC, iGEVD-MUSIC-CMS, iGSVD-MUSIC, and iGSVD-MUSIC-CMS(page5)",no,16kHz,16,Wind-damping mufflers,CMS to reduce ego-noise by whitening the noise correlation matrix,A person shouting,Human speech,Single,1-3 meters,-13dB(Page8),Around,2D Radial,2D Radial,,,,,"0,1,2.7, and 4 meters(Page5)",AscTech Pelican,very small,multirotor,On a remote server,Offline,"analysis using multiple models, Real-time processing, practical application can be seen by their experiment conducted at different settings.",A singular value of SNR was used. Further research could be done using a range of SNR values. The distance that the experiment was conducted in was very short.,Not mentioned,n/a,"@article{Ohata2017,
+  author = {Takuma Ohata and others},
+  title = {Outdoor Sound Source Detection Using a Quadcopter with Microphone Array},
+  journal = {Journal of Robotics and Mechatronics},
+  volume = {29},
+  number = {1},
+  pages = {177--184},
+  year = {2017},
+  publisher = {The Robotics Society of Japan},
+  doi = {10.20965/jrm.2017.p0177}
+}",\cite{Ohata2017},Abishek
+Acoustic UAV Detection using Spherical Array Beamforming,19 MEMS micrphones(Page2). Zylia ambisonics,19,MUSIC(Page1),no,Not specified,,Spectral filtering,They incorporate a reference rotor noise  signal into the array to asses its effect on the DOA.,Other drones,Drones,Both,30m,-13dB,The array is placed on a 5.4m pole. Drone noise added after recording,Other,3D Sphere,,,,,5.5 to 23m ,DJI S1000 and DJI Inspire(Page3),small,multirotor,Simulation,Simulation,Develops the detection of Drones themselves based on the noise they produce. They conduct real world testing and analyse their results.,"It is easy to work with noise. However, the paper does not focus on SSL while using a drone",Not mentioned,n/a,"@article{Satish2023,
+  author = {Aprameya Satish and Alessio Medda},
+  title = {Acoustic UAV Detection using Spherical Array Beamforming},
+  journal = {Georgia Tech Research Institute},
+  year = {2023},
+  note = {Available at: [https://ieeexplore-ieee-org.ezproxy.uws.edu.au/document/10051923},
+  doi = {10.1117/12.2194309}
+}",\cite{Satish2023},Abishek Soti
+Drone Audition: Sound Source Localization Using On-Board Microphones,15 MEMS(Page3),15,"Cross-correlation based DOA estimation (proposed), MUSIC, GEVD-MUSIC, GCC-PHAT",no,48kHz(Page6),48,Other, pre-recorded noise-only recordings,A person shouting,Human speech,Both,0.6 meters(page5),-30 dB to 0 dB,On multiple sides (more that one array),Other,"Other, irregular",,,Azimuth and Elevation,2,Around 1 meter (fixed not hovering),Not specified,micro (inferred),multirotor,Simulation,Simulation,"Low SNR scenario, analysis of different algorithms","Drone is not hovering, but fixed at one point. Approach requires prior noise data",Not mentioned,n/a,"@article{manamperi2022drone,
+  title={Drone audition: Sound source localization using on-board microphones},
+  author={Manamperi, Wageesha and Abhayapala, Thushara D and Zhang, Jihui and Samarasinghe, Prasanga N},
+  journal={IEEE/ACM Transactions on Audio, Speech, and Language Processing},
+  volume={30},
+  pages={508--519},
+  year={2022},
+  publisher={IEEE}
+}",\cite{manamperi2022drone},Abishek
+Outdoor acoustic event identification with DNN using a quadrotor-embedded microphone array,16(page2),16,iGSVD-MUSIC-CMS(Page2),Filtering,16kHz(page6),16,Other,"Sound source seperation techniques such as GHDSS-AS(page2,8)","A person shouting, Animal sounds, Motor vehicles, Other","Human speech, Animal sounds, Motor vehicles.",Multiple,3 meters from the quadcopter(page6),-20dB(page6),Around,2D Radial,2D Radial,,,,,1 meter(page6),AscTech Pelican,very small,multirotor,Simulation,Offline,"Compares two different algorithms for the same dataset, something we can do for our research paper.",Needs practical application.,Not mentioned,,"@article{sugiyama2017outdoor,
+  title={Outdoor acoustic event identification with DNN using a quadrotor-embedded microphone array},
+  author={Sugiyama, Osamu and Uemura, Satoshi and Nagamine, Akihide and Kojima, Ryosuke and Nakamura, Keisuke and Nakadai, Kazuhiro},
+  journal={Journal of Robotics and Mechatronics},
+  volume={29},
+  number={1},
+  pages={188--197},
+  year={2017},
+  publisher={Fuji Technology Press Ltd.}
+}",\cite{sugiyama2017outdoor},Abishek
+Research and Implementation of UAV Partial Discharge Detection Technology Based on Acoustic Array,Unclear (seems to be an acoustic camera from the images),,Delay and sum beamforming,Filtering,not specified,,Other,Physical noise cancellation (silencing structure) and digital noise reduction (signal and noise subspace decomposition),Electrical discharge,Electrical discharge,Single,3 meters(page5),Not specified,Below,2D Radial,2D Radial,,,,,n/a,DJI M300 RTK,small,multirotor,Simulation,Offline,This paper utilises UAVs to detect partial discharges of electricity. This is a very unique take. They even keep track of the temprature and humidity in the room.,Many details are missing; SNR and hovering height. SNR is missing because it is trying to measure electric discharge and that itself is comparable to noise.,Not mentioned,"We could also look into more unique applications of SSL, monitoring electric discharges and other things can be very beneficial in safekeeping factories.","@inproceedings{li2023research,
+  title={Research and Implementation of UAV Partial Discharge Detection Technology Based on Acoustic Array},
+  author={Li, Zhezhou and Chen, Zhuolei and Wu, Wenbin and Chen, Bojian and Han, Tengfei and Wang, Renshu},
+  booktitle={2023 3rd International Symposium on Computer Technology and Information Science (ISCTIS)},
+  pages={108--113},
+  year={2023},
+  organization={IEEE}
+}",\cite{li2023research},Abishek Soti
+MUSIC-Based Sound Source Localization Algorithm from UVA-Embedded Microphone Array,8,8,"MUSIC, GCC-PHAT, GCC-NONLIN",no,"44.1 kHz, downsampled to 16 kHz",16,Other,Covariance matrix noise suppression using motor noise datasets,A person shouting,Human speech,Single,N/A,Less than -15 dB,DREGON dataset,DREGON dataset,Cubic. Dregon,,,,,DREGON dataset,DREGON dataset,DREGON dataset,DREGON dataset,Simulation,Simulation,"* Simple to implement Signal Model
+* Used DREGON dataset for benchmarking
+* architecture and sampling windows are explicit","* Experimental Setup is not described completely
+* Not clear if the experiment was in physical media or simulation
+* number of sources not clear
+* local or remote processing not clear/mentioned",Not mentioned,,"@inproceedings{guan2022music,
+  title={MUSIC-Based Sound Source Localization Algorithm from UVA-Embedded Microphone Array},
+  author={Guan, Sheng and Jia, Ruo and Qiao, Libo and Gu, Guohui and Kang, Jianhong and Song, Yujia},
+  booktitle={International Conference in Communications, Signal Processing, and Systems},
+  pages={1--8},
+  year={2022},
+  organization={Springer}
+}",\cite{guan2022music},Naqib
+Performance of DOA Estimation Algorithms for Acoustic Localization of Indoor Flying Drones Using Artificial Sound Source,6,6,"MUSIC, CSSM, SRP-PHAT, TOPS and WAVES",no,44.1 Khz ,44.1,Distancing of the microphones from the drone rotors,position of the microphone array at 15 cm from the drone,Other (chirp signal),Chirp Signal,Single,2 mts,-25 to 25 dB,Above,Other,2D Hexagonal,,,,,Not specified,"Not specified. (Hobby UAV, mounted on tripods)","Not specified. (Hobby UAV, mounted on tripods)","Not specified. (Hobby UAV, mounted on tripods)",Simulation,Offline,,"They use chirp sounds on other drones for localization.
+Not filtering or noise mitigation at any processing step.",Not mentioned,"- First they simulate the algorithms by using Pyroomacoustics, after that, experiments are implement with real drones
+- The work focuses on localize other drones for swarm applications","@article{azrad2024performance,
+  title={Performance of DOA Estimation Algorithms for Acoustic Localization of Indoor Flying Drones Using Artificial Sound Source},
+  author={Azrad, Syaril and Salman, Abdulaziz and Al-Haddad, Syed Abdul Rahman},
+  journal={Journal of Aeronautics, Astronautics and Aviation},
+  volume={56},
+  number={1S},
+  pages={469--476},
+  year={2024},
+  publisher={Aeronautical and Astronautical Society of the Republic of China}
+}",\cite{azrad2024performance},Jahir Rodriguez
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

@@ -27,7 +27,7 @@ num_frames, num_columns, num_rows = energy_data_array.shape
 # Create a figure with two subplots side by side
 plt.ion()
 
-fig, (ax_energy, ax_prob) = plt.subplots(1, 2, figsize=(12, 6))
+fig, (ax_energy, ax_prob) = plt.subplots(2, 1, figsize=(12, 6))
 fig.canvas.manager.set_window_title('Energy and Probability Heatmaps')
 
 # Set up the extent if you want to map the data to specific coordinates
@@ -113,7 +113,7 @@ for data_index in range(num_frames):
 
 # Release the video writer
 out.release()
-print("Video saved as 'energy_probability_heatmaps.mp4'.")
+print("Video saved as 'energy_probability_heatmaps2.mp4'.")
 
 # Keep the plots open after the loop finishes
 plt.ioff()
